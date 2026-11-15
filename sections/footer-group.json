@@ -1,0 +1,60 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "footer",
+  "name": "Grupo do rodapé",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "brand": {
+          "type": "brand",
+          "settings": {
+            "text": "<p>Peças atemporais, tecidos nobres e acabamento impecável. Moda feminina pensada para durar.</p>",
+            "show_social": true
+          }
+        },
+        "menu-shop": {
+          "type": "menu",
+          "settings": {
+            "heading": "Loja",
+            "menu": "main-menu"
+          }
+        },
+        "menu-help": {
+          "type": "menu",
+          "settings": {
+            "heading": "Ajuda",
+            "menu": "footer"
+          }
+        },
+        "contact": {
+          "type": "text",
+          "settings": {
+            "heading": "Atendimento",
+            "text": "<p>Segunda a sexta, das 9h às 18h<br>contato@velloraelegance.com.br</p>"
+          }
+        }
+      },
+      "block_order": ["brand", "menu-shop", "menu-help", "contact"],
+      "settings": {
+        "color_bg": "#141414",
+        "color_text": "#EFE8DC",
+        "show_newsletter": true,
+        "hide_newsletter_home": true,
+        "newsletter_heading": "Entre para o Círculo Vellora",
+        "newsletter_text": "<p>Acesso antecipado às coleções, convites exclusivos e 10% off na primeira compra.</p>",
+        "legal_text": "CNPJ 00.000.000/0001-00 — Todos os direitos reservados.",
+        "show_payment_icons": true
+      }
+    }
+  },
+  "order": ["footer"]
+}

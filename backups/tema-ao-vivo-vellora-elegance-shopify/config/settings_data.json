@@ -1,0 +1,23 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "current": {
+    "color_accent": "#b88a62",
+    "color_background": "#fbf8f4",
+    "color_text": "#29231f"
+  },
+  "presets": {
+    "Vellora Elegance": {
+      "color_accent": "#b88a62",
+      "color_background": "#fbf8f4",
+      "color_text": "#29231f"
+    }
+  }
+}

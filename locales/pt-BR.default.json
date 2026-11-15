@@ -1,0 +1,106 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "general": {
+    "page": "Página {{ page }}",
+    "pagination": "Paginação",
+    "view_all": "Ver tudo",
+    "whatsapp": "Fale conosco pelo WhatsApp",
+    "five_stars": "Avaliação 5 de 5 estrelas",
+    "404_title": "Página não encontrada",
+    "404_text": "A página que você procura pode ter sido removida ou nunca existiu."
+  },
+  "accessibility": {
+    "skip_to_content": "Pular para o conteúdo",
+    "close": "Fechar",
+    "previous": "Anterior",
+    "next": "Próximo",
+    "slide_of": "Slide {{ index }} de {{ total }}",
+    "go_to_slide": "Ir para o slide {{ index }}"
+  },
+  "header": {
+    "announcement": "Anúncios",
+    "open_menu": "Abrir menu",
+    "menu": "Menu",
+    "main_nav": "Navegação principal",
+    "search": "Buscar",
+    "account": "Minha conta",
+    "my_account": "Minha conta",
+    "login": "Entrar ou criar conta",
+    "cart": "Sacola"
+  },
+  "search": {
+    "title": "Busca",
+    "placeholder": "O que você procura?",
+    "submit": "Buscar",
+    "popular": "Buscas populares",
+    "results_for": {
+      "one": "{{ count }} resultado para “{{ terms }}”",
+      "other": "{{ count }} resultados para “{{ terms }}”"
+    },
+    "no_results": "Nenhum resultado encontrado. Tente outro termo."
+  },
+  "products": {
+    "add_to_cart": "Adicionar à sacola",
+    "added_to_cart": "Produto adicionado à sacola",
+    "quick_add": "Compra rápida",
+    "choose_options": "Escolher tamanho",
+    "sold_out": "Esgotado",
+    "unavailable": "Indisponível",
+    "sale": "Sale",
+    "new": "Novo",
+    "from": "A partir de",
+    "error": "Não foi possível adicionar. Tente novamente.",
+    "quantity": "Quantidade",
+    "gallery": "Galeria de imagens",
+    "description": "Descrição",
+    "shipping": "Entrega e trocas",
+    "care": "Cuidados com a peça",
+    "placeholder_title": "Nome do produto",
+    "installments_html": "ou <span data-count>{{ parcelas }}</span>x de <span data-amount>{{ amount }}</span> sem juros",
+    "pix_html": "<strong data-amount>{{ amount }}</strong> no Pix ({{ discount }}% off)"
+  },
+  "collections": {
+    "eyebrow": "Coleção",
+    "all": "Todas as coleções",
+    "sort_by": "Ordenar por",
+    "products_count": "{{ total }} peças",
+    "empty": "Nenhum produto nesta coleção ainda."
+  },
+  "cart": {
+    "title": "Sua sacola",
+    "view": "Ver sacola",
+    "empty": "Sua sacola está vazia.",
+    "continue": "Continuar comprando",
+    "subtotal": "Subtotal",
+    "taxes_note": "Frete e descontos calculados no checkout.",
+    "note": "Observações do pedido",
+    "remove": "Remover",
+    "update": "Atualizar sacola",
+    "checkout": "Finalizar compra"
+  },
+  "newsletter": {
+    "email": "Seu e-mail",
+    "subscribe": "Inscrever",
+    "success": "Obrigada! Você agora faz parte do Círculo Vellora."
+  },
+  "footer": {
+    "payment_methods": "Formas de pagamento"
+  },
+  "blogs": {
+    "eyebrow": "Journal",
+    "read_more": "Ler mais",
+    "back": "Voltar ao journal"
+  },
+  "gift_card": {
+    "title": "Seu vale-presente",
+    "expired": "Este vale-presente expirou ou foi desativado."
+  }
+}

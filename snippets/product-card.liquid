@@ -1,0 +1,105 @@
+{%- comment -%}
+  Card de produto.
+
+  Parâmetros:
+  - product (objeto) — obrigatório
+  - sizes (string) — atributo sizes das imagens. Padrão: 4 colunas no desktop
+  - eager (booleano) — carregar imagem sem lazy-load (primeira dobra)
+
+  Uso: {% render 'product-card', product: product, sizes: '(min-width: 990px) 25vw, 50vw' %}
+{%- endcomment -%}
+{%- liquid
+  assign card_sizes = sizes | default: '(min-width: 990px) calc((100vw - 10rem) / 4), (min-width: 750px) 33vw, 50vw'
+  assign media = product.featured_media
+  assign media_hover = product.media[1]
+  assign loading = 'lazy'
+  if eager
+    assign loading = 'eager'
+  endif
+
+  assign on_sale = false
+  if product.compare_at_price > product.price
+    assign on_sale = true
+  endif
+
+  assign new_tag = settings.card_new_tag | strip | downcase
+  assign is_new = false
+  if new_tag != blank
+    for tag in product.tags
+      assign t = tag | strip | downcase
+      if t == new_tag
+        assign is_new = true
+        break
+      endif
+    endfor
+  endif
+-%}
+
+<article class="card{% if settings.card_hover_image and media_hover %} card--has-hover{% endif %}">
+  <div class="card__media-wrap">
+    <a href="{{ product.url }}" class="card__media" tabindex="-1" aria-hidden="true">
+      {%- if media -%}
+        {{
+          media.preview_image
+          | image_url: width: 1200
+          | image_tag:
+            widths: '360, 540, 720, 900, 1200',
+            sizes: card_sizes,
+            loading: loading,
+            class: 'card__img',
+            alt: product.title
+        }}
+        {%- if settings.card_hover_image and media_hover -%}
+          {{
+            media_hover.preview_image
+            | image_url: width: 1200
+            | image_tag:
+              widths: '360, 540, 720, 900, 1200',
+              sizes: card_sizes,
+              loading: 'lazy',
+              class: 'card__img card__img--hover',
+              alt: ''
+          }}
+        {%- endif -%}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'card__img placeholder-svg' }}
+      {%- endif -%}
+    </a>
+
+    <div class="card__badges">
+      {%- if product.available == false -%}
+        <span class="badge badge--muted">{{ 'products.sold_out' | t }}</span>
+      {%- elsif on_sale -%}
+        <span class="badge badge--sale">{{ 'products.sale' | t }}</span>
+      {%- elsif is_new -%}
+        <span class="badge">{{ 'products.new' | t }}</span>
+      {%- endif -%}
+    </div>
+
+    {%- if settings.card_quick_add and product.available -%}
+      <div class="card__quick">
+        {%- if product.has_only_default_variant -%}
+          {%- form 'product', product, class: 'card__quick-form', data-ajax-add: '' -%}
+            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+            <input type="hidden" name="quantity" value="1">
+            <button type="submit" class="card__quick-btn">{{ 'products.quick_add' | t }}</button>
+          {%- endform -%}
+        {%- else -%}
+          <a href="{{ product.url }}" class="card__quick-btn">{{ 'products.choose_options' | t }}</a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="card__info">
+    <h3 class="card__title">
+      <a href="{{ product.url }}" class="card__link">{{ product.title | escape }}</a>
+    </h3>
+    {%- render 'price',
+      price: product.price,
+      compare_at_price: product.compare_at_price,
+      price_varies: product.price_varies,
+      show_extras: true
+    -%}
+  </div>
+</article>

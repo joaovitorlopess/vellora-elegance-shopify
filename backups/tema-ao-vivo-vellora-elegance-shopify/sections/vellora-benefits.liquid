@@ -1,0 +1,8 @@
+<section class="benefits page-width">
+  {% for block in section.blocks %}
+    <div class="benefit" {{ block.shopify_attributes }}><span class="benefit-symbol">{{ block.settings.symbol | escape }}</span><div><h3>{{ block.settings.title | escape }}</h3><p>{{ block.settings.text | escape }}</p></div></div>
+  {% endfor %}
+</section>
+{% schema %}
+{"name":"Diferenciais da loja","blocks":[{"type":"benefit","name":"Diferencial","settings":[{"type":"text","id":"symbol","label":"Símbolo","default":"✦"},{"type":"text","id":"title","label":"Título","default":"Compra segura"},{"type":"text","id":"text","label":"Descrição","default":"Seus dados protegidos em todo o processo."}]}],"presets":[{"name":"Diferenciais da loja","blocks":[{"type":"benefit","settings":{"symbol":"✦","title":"Curadoria especial","text":"Peças selecionadas para o seu estilo."}},{"type":"benefit","settings":{"symbol":"↗","title":"Compra segura","text":"Checkout protegido pela Shopify."}},{"type":"benefit","settings":{"symbol":"♡","title":"Feita para você","text":"Moda que valoriza sua personalidade."}}]}]}
+{% endschema %}

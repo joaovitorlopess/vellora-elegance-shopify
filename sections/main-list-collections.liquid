@@ -1,0 +1,32 @@
+<section class="section section--tight container container--wide">
+  <div class="collection-hero collection-hero--flush">
+    <h1 class="h1">{{ 'collections.all' | t }}</h1>
+  </div>
+  <ul class="collection-grid" role="list" style="--columns: 3;">
+    {%- for collection in collections -%}
+      <li class="collection-grid__item">
+        <a href="{{ collection.url }}" class="collection-card">
+          <div class="collection-card__media">
+            {%- if collection.featured_image -%}
+              {{ collection.featured_image | image_url: width: 1000 | image_tag: widths: '450, 700, 1000', sizes: '(min-width: 990px) 33vw, 100vw', loading: 'lazy', class: 'collection-card__img' }}
+            {%- else -%}
+              {{ 'collection-1' | placeholder_svg_tag: 'collection-card__img placeholder-svg' }}
+            {%- endif -%}
+          </div>
+          <div class="collection-card__info">
+            <h2 class="h3 collection-card__title">{{ collection.title | escape }}</h2>
+          </div>
+        </a>
+      </li>
+    {%- endfor -%}
+  </ul>
+</section>
+
+{% schema %}
+{
+  "name": "Lista de coleções",
+  "tag": "div",
+  "class": "section-main-list-collections",
+  "settings": []
+}
+{% endschema %}

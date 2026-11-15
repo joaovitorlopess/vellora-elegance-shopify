@@ -1,0 +1,10 @@
+<article class="product-card">
+  <a class="product-image-link" href="{{ product.url }}">
+    {% if product.featured_image %}
+      {{ product.featured_image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '360, 540, 720, 900', sizes: '(min-width: 990px) 25vw, (min-width: 600px) 50vw, 50vw', alt: product.featured_image.alt | default: product.title }}
+    {% else %}<div class="image-placeholder">VELLORA</div>{% endif %}
+    {% if product.compare_at_price > product.price %}<span class="product-badge">Oferta</span>{% endif %}
+  </a>
+  <div class="product-info"><a href="{{ product.url }}" class="product-title">{{ product.title | escape }}</a><div class="product-price">{% if product.price_varies %}<span>A partir de </span>{% endif %}{{ product.price_min | money }}{% if product.compare_at_price > product.price %}<s>{{ product.compare_at_price | money }}</s>{% endif %}</div>
+  {% if product.available %}<a class="quick-link" href="{{ product.url }}">Ver detalhes <span>↗</span></a>{% else %}<span class="sold-out">Esgotado</span>{% endif %}</div>
+</article>

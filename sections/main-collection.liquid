@@ -1,0 +1,60 @@
+{%- comment -%}
+  Página de coleção — versão base (Etapa 1).
+  Filtros laterais (Search & Discovery) serão adicionados na etapa dedicada.
+{%- endcomment -%}
+<section class="collection-hero container container--wide">
+  <p class="eyebrow">{{ 'collections.eyebrow' | t }}</p>
+  <h1 class="h1">{{ collection.title | escape }}</h1>
+  {%- if collection.description != blank -%}
+    <div class="rte collection-hero__text">{{ collection.description }}</div>
+  {%- endif -%}
+</section>
+
+{%- paginate collection.products by section.settings.per_page -%}
+  <section class="section section--tight container container--wide" style="--columns: {{ section.settings.columns }};">
+    <div class="collection-toolbar">
+      <p class="collection-toolbar__count">{{ 'collections.products_count' | t: total: collection.products_count }}</p>
+      {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+      <div class="collection-toolbar__sort">
+        <label for="SortBy">{{ 'collections.sort_by' | t }}</label>
+        <select id="SortBy" class="select" data-sort-select>
+          {%- for option in collection.sort_options -%}
+            <option value="{{ option.value | escape }}"{% if option.value == sort_by %} selected{% endif %}>{{ option.name | escape }}</option>
+          {%- endfor -%}
+        </select>
+      </div>
+    </div>
+
+    {%- if collection.products.size > 0 -%}
+      <ul class="product-grid" role="list">
+        {%- for product in collection.products -%}
+          <li class="product-grid__item">
+            {%- liquid
+              assign eager = false
+              if forloop.index <= 4
+                assign eager = true
+              endif
+            -%}
+            {%- render 'product-card', product: product, eager: eager -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- else -%}
+      <p class="empty-state">{{ 'collections.empty' | t }}</p>
+    {%- endif -%}
+
+    {%- render 'pagination', paginate: paginate -%}
+  </section>
+{%- endpaginate -%}
+
+{% schema %}
+{
+  "name": "Coleção",
+  "tag": "div",
+  "class": "section-main-collection",
+  "settings": [
+    { "type": "range", "id": "per_page", "label": "Produtos por página", "min": 8, "max": 48, "step": 4, "default": 24 },
+    { "type": "range", "id": "columns", "label": "Colunas no desktop", "min": 2, "max": 5, "step": 1, "default": 4 }
+  ]
+}
+{% endschema %}

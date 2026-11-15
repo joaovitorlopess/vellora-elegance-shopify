@@ -1,0 +1,106 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "general": {
+    "page": "Page {{ page }}",
+    "pagination": "Pagination",
+    "view_all": "View all",
+    "whatsapp": "Chat with us on WhatsApp",
+    "five_stars": "Rated 5 out of 5 stars",
+    "404_title": "Page not found",
+    "404_text": "The page you are looking for may have been removed or never existed."
+  },
+  "accessibility": {
+    "skip_to_content": "Skip to content",
+    "close": "Close",
+    "previous": "Previous",
+    "next": "Next",
+    "slide_of": "Slide {{ index }} of {{ total }}",
+    "go_to_slide": "Go to slide {{ index }}"
+  },
+  "header": {
+    "announcement": "Announcements",
+    "open_menu": "Open menu",
+    "menu": "Menu",
+    "main_nav": "Main navigation",
+    "search": "Search",
+    "account": "Account",
+    "my_account": "My account",
+    "login": "Log in or sign up",
+    "cart": "Bag"
+  },
+  "search": {
+    "title": "Search",
+    "placeholder": "What are you looking for?",
+    "submit": "Search",
+    "popular": "Popular searches",
+    "results_for": {
+      "one": "{{ count }} result for “{{ terms }}”",
+      "other": "{{ count }} results for “{{ terms }}”"
+    },
+    "no_results": "No results found. Try another term."
+  },
+  "products": {
+    "add_to_cart": "Add to bag",
+    "added_to_cart": "Added to your bag",
+    "quick_add": "Quick add",
+    "choose_options": "Choose size",
+    "sold_out": "Sold out",
+    "unavailable": "Unavailable",
+    "sale": "Sale",
+    "new": "New",
+    "from": "From",
+    "error": "Could not add to bag. Please try again.",
+    "quantity": "Quantity",
+    "gallery": "Image gallery",
+    "description": "Description",
+    "shipping": "Shipping & returns",
+    "care": "Care",
+    "placeholder_title": "Product name",
+    "installments_html": "or <span data-count>{{ parcelas }}</span> interest-free payments of <span data-amount>{{ amount }}</span>",
+    "pix_html": "<strong data-amount>{{ amount }}</strong> with Pix ({{ discount }}% off)"
+  },
+  "collections": {
+    "eyebrow": "Collection",
+    "all": "All collections",
+    "sort_by": "Sort by",
+    "products_count": "{{ total }} pieces",
+    "empty": "No products in this collection yet."
+  },
+  "cart": {
+    "title": "Your bag",
+    "view": "View bag",
+    "empty": "Your bag is empty.",
+    "continue": "Continue shopping",
+    "subtotal": "Subtotal",
+    "taxes_note": "Shipping and discounts calculated at checkout.",
+    "note": "Order notes",
+    "remove": "Remove",
+    "update": "Update bag",
+    "checkout": "Check out"
+  },
+  "newsletter": {
+    "email": "Your email",
+    "subscribe": "Subscribe",
+    "success": "Thank you! You are now part of the Vellora Circle."
+  },
+  "footer": {
+    "payment_methods": "Payment methods"
+  },
+  "blogs": {
+    "eyebrow": "Journal",
+    "read_more": "Read more",
+    "back": "Back to journal"
+  },
+  "gift_card": {
+    "title": "Your gift card",
+    "expired": "This gift card has expired or been disabled."
+  }
+}

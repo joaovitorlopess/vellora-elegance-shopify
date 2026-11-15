@@ -1,0 +1,26 @@
+<article class="section section--tight">
+  <header class="container container--narrow article__header">
+    <p class="eyebrow">{{ article.published_at | time_tag: format: 'date' }}</p>
+    <h1 class="h1">{{ article.title | escape }}</h1>
+  </header>
+  {%- if article.image -%}
+    <div class="container container--wide article__media">
+      {{ article.image | image_url: width: 2400 | image_tag: widths: '750, 1200, 1800, 2400', sizes: '100vw', class: 'article__img' }}
+    </div>
+  {%- endif -%}
+  <div class="container container--narrow rte article__content">
+    {{ article.content }}
+  </div>
+  <div class="container container--narrow article__footer">
+    <a href="{{ blog.url }}" class="link-underline">{{ 'blogs.back' | t }}</a>
+  </div>
+</article>
+
+{% schema %}
+{
+  "name": "Artigo",
+  "tag": "div",
+  "class": "section-main-article",
+  "settings": []
+}
+{% endschema %}

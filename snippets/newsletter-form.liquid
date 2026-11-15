@@ -1,0 +1,37 @@
+{%- comment -%}
+  Formulário de newsletter nativo da Shopify (cria cliente com aceite de marketing).
+  Parâmetros: form_id (string, único por página)
+{%- endcomment -%}
+{%- form 'customer', id: form_id, class: 'newsletter-form' -%}
+  <input type="hidden" name="contact[tags]" value="newsletter">
+  {%- if form.posted_successfully? -%}
+    <p class="newsletter-form__message newsletter-form__message--success" role="status">
+      {{ 'newsletter.success' | t }}
+    </p>
+  {%- else -%}
+    <div class="newsletter-form__field">
+      <label for="{{ form_id }}-email" class="visually-hidden">{{ 'newsletter.email' | t }}</label>
+      <input
+        id="{{ form_id }}-email"
+        type="email"
+        name="contact[email]"
+        class="newsletter-form__input"
+        placeholder="{{ 'newsletter.email' | t }}"
+        autocomplete="email"
+        autocapitalize="off"
+        spellcheck="false"
+        required
+        {% if form.errors %}aria-invalid="true" aria-describedby="{{ form_id }}-error"{% endif %}
+      >
+      <button type="submit" class="newsletter-form__submit" aria-label="{{ 'newsletter.subscribe' | t }}">
+        <span>{{ 'newsletter.subscribe' | t }}</span>
+        {%- render 'icon', icon: 'arrow-right' -%}
+      </button>
+    </div>
+    {%- if form.errors -%}
+      <p id="{{ form_id }}-error" class="newsletter-form__message newsletter-form__message--error">
+        {{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}
+      </p>
+    {%- endif -%}
+  {%- endif -%}
+{%- endform -%}

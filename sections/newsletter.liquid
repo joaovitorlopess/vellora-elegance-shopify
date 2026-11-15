@@ -1,0 +1,55 @@
+<section class="newsletter{% if section.settings.image %} newsletter--image{% endif %}">
+  {%- if section.settings.image -%}
+    <div class="newsletter__media">
+      {{
+        section.settings.image
+        | image_url: width: 2400
+        | image_tag: widths: '750, 1200, 1800, 2400', sizes: '100vw', loading: 'lazy', class: 'newsletter__img'
+      }}
+    </div>
+  {%- endif -%}
+  <div class="container container--narrow newsletter__inner" data-reveal>
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>
+    {%- endif -%}
+    {%- if section.settings.heading != blank -%}
+      <h2 class="h1 newsletter__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.text != blank -%}
+      <div class="rte newsletter__text">{{ section.settings.text }}</div>
+    {%- endif -%}
+    {%- assign newsletter_id = 'Newsletter-' | append: section.id -%}
+    {%- render 'newsletter-form', form_id: newsletter_id -%}
+    {%- if section.settings.disclaimer != blank -%}
+      <p class="newsletter__disclaimer">{{ section.settings.disclaimer | escape }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "tag": "div",
+  "class": "section-newsletter",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Imagem de fundo (opcional)" },
+    { "type": "text", "id": "eyebrow", "label": "Sobretítulo", "default": "Círculo Vellora" },
+    { "type": "inline_richtext", "id": "heading", "label": "Título", "default": "Seja a primeira a <em>saber</em>" },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Texto",
+      "default": "<p>Receba em primeira mão lançamentos, edições limitadas e 10% off na sua primeira compra.</p>"
+    },
+    {
+      "type": "text",
+      "id": "disclaimer",
+      "label": "Aviso (LGPD)",
+      "default": "Ao se inscrever, você concorda com nossa Política de Privacidade. Cancele quando quiser."
+    }
+  ],
+  "presets": [
+    { "name": "Newsletter" }
+  ]
+}
+{% endschema %}

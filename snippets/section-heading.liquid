@@ -1,0 +1,22 @@
+{%- comment -%}
+  Cabeçalho padrão de seção (sobretítulo + título + link opcional).
+  Parâmetros: eyebrow, heading, link_label, link_url, align ('left' | 'center')
+{%- endcomment -%}
+{%- if eyebrow != blank or heading != blank -%}
+  <div class="section-heading section-heading--{{ align | default: 'center' }}">
+    <div class="section-heading__text">
+      {%- if eyebrow != blank -%}
+        <p class="eyebrow">{{ eyebrow | escape }}</p>
+      {%- endif -%}
+      {%- if heading != blank -%}
+        <h2 class="h2 section-heading__title">{{ heading | escape }}</h2>
+      {%- endif -%}
+    </div>
+    {%- if link_label != blank and link_url != blank -%}
+      <a href="{{ link_url }}" class="link-arrow">
+        <span>{{ link_label | escape }}</span>
+        {%- render 'icon', icon: 'arrow-right' -%}
+      </a>
+    {%- endif -%}
+  </div>
+{%- endif -%}

@@ -1,0 +1,69 @@
+{%- comment -%}
+  Bloco de preço adaptado ao mercado brasileiro.
+
+  Parâmetros:
+  - price (número em centavos) — obrigatório
+  - compare_at_price (número em centavos) — opcional
+  - price_varies (booleano) — exibe "A partir de"
+  - show_extras (booleano) — exibe parcelamento e Pix
+  - data_attr (booleano) — adiciona data-attributes para atualização via JS (página de produto)
+
+  Uso: {% render 'price', price: product.price, compare_at_price: product.compare_at_price, show_extras: true %}
+{%- endcomment -%}
+{%- liquid
+  assign on_sale = false
+  if compare_at_price > price
+    assign on_sale = true
+  endif
+
+  assign installment_count = settings.installments
+  assign installment_min = settings.installments_min_value | times: 100
+  assign show_installments = false
+  if installment_count > 1
+    assign max_by_value = installment_count
+    if installment_min > 0
+      assign max_by_value = price | divided_by: installment_min
+    endif
+    if max_by_value < installment_count
+      assign installment_count = max_by_value
+    endif
+    if installment_count > 1
+      assign show_installments = true
+      assign installment_value = price | divided_by: installment_count
+    endif
+  endif
+
+  assign show_pix = false
+  if settings.pix_discount > 0
+    assign show_pix = true
+    assign pix_factor = 100 | minus: settings.pix_discount
+    assign pix_price = price | times: pix_factor | divided_by: 100
+  endif
+-%}
+
+<div class="price{% if on_sale %} price--on-sale{% endif %}">
+  <div class="price__main">
+    {%- if price_varies -%}
+      <span class="price__from">{{ 'products.from' | t }}</span>
+    {%- endif -%}
+    <span class="price__current"{% if data_attr %} data-price{% endif %}>{{ price | money }}</span>
+    <s class="price__compare"{% if data_attr %} data-compare-price{% endif %}{% unless on_sale %} hidden{% endunless %}>
+      {%- if on_sale -%}{{ compare_at_price | money }}{%- endif -%}
+    </s>
+  </div>
+
+  {%- if show_extras -%}
+    {%- if show_installments -%}
+      {%- assign installment_money = installment_value | money -%}
+      <p class="price__installments"{% if data_attr %} data-installments{% endif %}>
+        {{- 'products.installments_html' | t: parcelas: installment_count, amount: installment_money -}}
+      </p>
+    {%- endif -%}
+    {%- if show_pix -%}
+      {%- assign pix_money = pix_price | money -%}
+      <p class="price__pix"{% if data_attr %} data-pix{% endif %}>
+        {{- 'products.pix_html' | t: amount: pix_money, discount: settings.pix_discount -}}
+      </p>
+    {%- endif -%}
+  {%- endif -%}
+</div>

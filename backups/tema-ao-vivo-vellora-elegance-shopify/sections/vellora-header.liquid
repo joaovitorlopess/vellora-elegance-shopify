@@ -1,0 +1,22 @@
+<div class="announcement">{{ section.settings.announcement | escape }}</div>
+<header class="site-header">
+  <div class="header-inner page-width">
+    <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="SiteNav">☰</button>
+    <a class="brand" href="{{ routes.root_url }}" aria-label="Vellora Elegance — início">
+      <span class="brand-name">{{ shop.name | default: 'Vellora Elegance' }}</span>
+      <span class="brand-tagline">MODA • ELEGÂNCIA • VOCÊ</span>
+    </a>
+    <nav id="SiteNav" class="site-nav" aria-label="Navegação principal">
+      <a href="{{ routes.root_url }}">Início</a>
+      {% if section.settings.menu != blank %}
+        {% for link in section.settings.menu.links %}<a href="{{ link.url }}">{{ link.title | escape }}</a>{% endfor %}
+      {% else %}
+        <a href="/collections/all">Coleção</a><a href="/pages/sobre-nos">Nossa história</a><a href="/pages/contato">Contato</a>
+      {% endif %}
+    </nav>
+    <a class="cart-link" href="{{ routes.cart_url }}" aria-label="Sacola de compras">Sacola <span class="cart-count">{{ cart.item_count }}</span></a>
+  </div>
+</header>
+{% schema %}
+{"name":"Cabeçalho Vellora","settings":[{"type":"text","id":"announcement","label":"Faixa de anúncio","default":"SEU ESTILO, SUA ESSÊNCIA — descubra a nova coleção"},{"type":"link_list","id":"menu","label":"Menu principal"}]}
+{% endschema %}

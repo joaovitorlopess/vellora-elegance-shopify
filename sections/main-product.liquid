@@ -1,0 +1,156 @@
+{%- comment -%}
+  Página de produto — versão base (Etapa 1).
+  Será expandida na etapa dedicada (guia de medidas, cores por swatch, cross-sell, avaliações).
+{%- endcomment -%}
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign form_id = 'ProductForm-' | append: section.id
+-%}
+
+<section class="product container container--wide" data-product data-section="{{ section.id }}">
+  <div class="product__gallery" aria-label="{{ 'products.gallery' | t }}">
+    {%- if product.media.size > 0 -%}
+      <ul class="product__media-list" role="list">
+        {%- for media in product.media -%}
+          <li class="product__media-item" data-media-id="{{ media.id }}">
+            {%- case media.media_type -%}
+              {%- when 'image' -%}
+                {%- liquid
+                  assign loading = 'lazy'
+                  if forloop.first
+                    assign loading = 'eager'
+                  endif
+                -%}
+                {{
+                  media
+                  | image_url: width: 1800
+                  | image_tag:
+                    widths: '600, 900, 1200, 1500, 1800',
+                    sizes: '(min-width: 990px) 55vw, 100vw',
+                    loading: loading,
+                    class: 'product__img'
+                }}
+              {%- when 'video' -%}
+                {{ media | video_tag: autoplay: true, loop: true, muted: true, controls: false, class: 'product__img' }}
+              {%- when 'external_video' -%}
+                {{ media | external_video_tag: class: 'product__img' }}
+              {%- else -%}
+                {{ media | media_tag: class: 'product__img' }}
+            {%- endcase -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag: 'product__img placeholder-svg' }}
+    {%- endif -%}
+  </div>
+
+  <div class="product__info">
+    <div class="product__sticky">
+      {%- if section.settings.show_vendor and product.vendor != blank -%}
+        <p class="eyebrow">{{ product.vendor | escape }}</p>
+      {%- endif -%}
+      <h1 class="h2 product__title">{{ product.title | escape }}</h1>
+
+      <div class="product__price">
+        {%- render 'price',
+          price: current_variant.price,
+          compare_at_price: current_variant.compare_at_price,
+          show_extras: true,
+          data_attr: true
+        -%}
+      </div>
+
+      {%- form 'product', product, id: form_id, class: 'product__form', data-ajax-add: '', novalidate: 'novalidate' -%}
+        <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
+
+        {%- unless product.has_only_default_variant -%}
+          {%- for option in product.options_with_values -%}
+            <fieldset class="option" data-option-index="{{ forloop.index0 }}">
+              <legend class="option__label">
+                {{ option.name | escape }}: <span data-option-value>{{ option.selected_value | escape }}</span>
+              </legend>
+              <div class="option__values">
+                {%- for value in option.values -%}
+                  {%- assign input_id = form_id | append: '-' | append: forloop.parentloop.index0 | append: '-' | append: forloop.index0 -%}
+                  <input
+                    type="radio"
+                    class="option__input visually-hidden"
+                    id="{{ input_id }}"
+                    name="option-{{ forloop.parentloop.index0 }}"
+                    value="{{ value | escape }}"
+                    {% if option.selected_value == value %}checked{% endif %}
+                  >
+                  <label for="{{ input_id }}" class="option__pill">{{ value | escape }}</label>
+                {%- endfor -%}
+              </div>
+            </fieldset>
+          {%- endfor -%}
+        {%- endunless -%}
+
+        <div class="product__actions">
+          <div class="qty" data-qty>
+            <button type="button" class="qty__btn" data-qty-minus aria-label="-">{%- render 'icon', icon: 'minus' -%}</button>
+            <label for="{{ form_id }}-qty" class="visually-hidden">{{ 'products.quantity' | t }}</label>
+            <input id="{{ form_id }}-qty" type="number" name="quantity" value="1" min="1" class="qty__input">
+            <button type="button" class="qty__btn" data-qty-plus aria-label="+">{%- render 'icon', icon: 'plus' -%}</button>
+          </div>
+          <button type="submit" class="btn btn--dark btn--block" data-add-button {% unless current_variant.available %}disabled{% endunless %}>
+            {%- if current_variant.available -%}
+              {{ 'products.add_to_cart' | t }}
+            {%- else -%}
+              {{ 'products.sold_out' | t }}
+            {%- endif -%}
+          </button>
+        </div>
+        {{ form | payment_button }}
+      {%- endform -%}
+
+      {%- if product.description != blank -%}
+        <details class="accordion" open>
+          <summary class="accordion__summary">{{ 'products.description' | t }}{%- render 'icon', icon: 'plus' -%}</summary>
+          <div class="rte accordion__content">{{ product.description }}</div>
+        </details>
+      {%- endif -%}
+      {%- if section.settings.shipping_text != blank -%}
+        <details class="accordion">
+          <summary class="accordion__summary">{{ 'products.shipping' | t }}{%- render 'icon', icon: 'plus' -%}</summary>
+          <div class="rte accordion__content">{{ section.settings.shipping_text }}</div>
+        </details>
+      {%- endif -%}
+      {%- if section.settings.care_text != blank -%}
+        <details class="accordion">
+          <summary class="accordion__summary">{{ 'products.care' | t }}{%- render 'icon', icon: 'plus' -%}</summary>
+          <div class="rte accordion__content">{{ section.settings.care_text }}</div>
+        </details>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <script type="application/json" data-product-json>
+    {{ product | json }}
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "Produto",
+  "tag": "div",
+  "class": "section-main-product",
+  "settings": [
+    { "type": "checkbox", "id": "show_vendor", "label": "Mostrar marca/fornecedor", "default": false },
+    {
+      "type": "richtext",
+      "id": "shipping_text",
+      "label": "Entrega e trocas",
+      "default": "<p>Frete grátis para todo o Brasil em compras acima de R$ 499. Primeira troca grátis em até 30 dias após o recebimento.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "care_text",
+      "label": "Cuidados com a peça",
+      "default": "<p>Lavar à mão com água fria. Não usar alvejante. Secar à sombra. Passar em temperatura baixa.</p>"
+    }
+  ]
+}
+{% endschema %}

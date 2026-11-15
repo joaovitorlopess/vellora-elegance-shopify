@@ -1,0 +1,32 @@
+{%- comment -%}
+  Imagem de demonstração responsiva. Aparece apenas quando a seção ainda
+  não tem foto própria e a opção "Mostrar imagens de demonstração" está ativa.
+
+  Parâmetros: name, class, alt, loading ('lazy' | 'eager'), width, height, sizes
+{%- endcomment -%}
+{%- liquid
+  assign img_w = width | default: 1200
+  assign img_h = height | default: 1600
+  assign img_sizes = sizes | default: '100vw'
+  assign widths = '480,800,1200,1600,2400' | split: ','
+-%}
+<img
+  src="{%- render 'demo-src', name: name, w: img_w, h: img_h -%}"
+  {%- if settings.demo_source == 'photos' %}
+    srcset="
+      {%- for wv in widths -%}
+        {%- assign wi = wv | plus: 0 -%}
+        {%- if wi < img_w -%}
+          {%- assign hi = img_h | times: wi | divided_by: img_w -%}
+          {%- render 'demo-src', name: name, w: wi, h: hi %} {{ wi }}w,{% endif -%}
+      {%- endfor -%}
+      {%- render 'demo-src', name: name, w: img_w, h: img_h %} {{ img_w }}w"
+    sizes="{{ img_sizes }}"
+  {%- endif %}
+  class="{{ class }}"
+  alt="{{ alt | default: '' | escape }}"
+  loading="{{ loading | default: 'lazy' }}"
+  width="{{ img_w }}"
+  height="{{ img_h }}"
+  decoding="async"
+>

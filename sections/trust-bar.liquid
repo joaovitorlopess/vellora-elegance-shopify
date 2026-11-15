@@ -1,0 +1,74 @@
+<section class="trust-bar trust-bar--{{ section.settings.background }}">
+  <div class="container container--wide">
+    <ul class="trust-bar__list" role="list" style="--items: {{ section.blocks.size }};">
+      {%- for block in section.blocks -%}
+        <li class="trust-bar__item" {{ block.shopify_attributes }}>
+          <span class="trust-bar__icon">{%- render 'icon', icon: block.settings.icon -%}</span>
+          <div>
+            <p class="trust-bar__title">{{ block.settings.title | escape }}</p>
+            {%- if block.settings.text != blank -%}
+              <p class="trust-bar__text">{{ block.settings.text | escape }}</p>
+            {%- endif -%}
+          </div>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Benefícios",
+  "tag": "div",
+  "class": "section-trust-bar",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "select",
+      "id": "background",
+      "label": "Fundo",
+      "options": [
+        { "value": "default", "label": "Off-white" },
+        { "value": "alt", "label": "Bege claro" },
+        { "value": "champagne", "label": "Champagne" }
+      ],
+      "default": "alt"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Benefício",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Ícone",
+          "options": [
+            { "value": "truck", "label": "Entrega" },
+            { "value": "exchange", "label": "Troca" },
+            { "value": "card", "label": "Cartão" },
+            { "value": "pix", "label": "Pix" },
+            { "value": "shield", "label": "Segurança" },
+            { "value": "gift", "label": "Presente" }
+          ],
+          "default": "truck"
+        },
+        { "type": "text", "id": "title", "label": "Título", "default": "Frete grátis" },
+        { "type": "text", "id": "text", "label": "Texto", "default": "Em compras acima de R$ 499" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Benefícios",
+      "blocks": [
+        { "type": "item", "settings": { "icon": "truck", "title": "Frete grátis", "text": "Em compras acima de R$ 499" } },
+        { "type": "item", "settings": { "icon": "card", "title": "Até 6x sem juros", "text": "Em todos os cartões" } },
+        { "type": "item", "settings": { "icon": "pix", "title": "5% off no Pix", "text": "Aprovação imediata" } },
+        { "type": "item", "settings": { "icon": "exchange", "title": "Troca fácil", "text": "Primeira troca grátis em 30 dias" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

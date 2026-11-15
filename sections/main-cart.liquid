@@ -1,0 +1,87 @@
+{%- comment -%}
+  Página do carrinho — versão base (Etapa 1).
+  Carrinho lateral (drawer), barra de frete grátis e upsell virão na etapa dedicada.
+{%- endcomment -%}
+<section class="section section--tight container container--wide cart">
+  <h1 class="h1 cart__title">{{ 'cart.title' | t }}</h1>
+
+  {%- if cart.item_count > 0 -%}
+    <form action="{{ routes.cart_url }}" method="post" id="CartForm" class="cart__layout">
+      <div class="cart__items">
+        <ul role="list">
+          {%- for item in cart.items -%}
+            <li class="cart-item">
+              <a href="{{ item.url }}" class="cart-item__media">
+                {%- if item.image -%}
+                  {{ item.image | image_url: width: 400 | image_tag: loading: 'lazy', class: 'cart-item__img', alt: item.product.title, widths: '200, 300, 400', sizes: '140px' }}
+                {%- endif -%}
+              </a>
+              <div class="cart-item__details">
+                <a href="{{ item.url }}" class="cart-item__title">{{ item.product.title | escape }}</a>
+                {%- unless item.product.has_only_default_variant -%}
+                  <p class="cart-item__variant">{{ item.variant.title | escape }}</p>
+                {%- endunless -%}
+                {%- for property in item.properties -%}
+                  {%- assign first_char = property.first | slice: 0 -%}
+                  {%- if property.last != blank and first_char != '_' -%}
+                    <p class="cart-item__variant">{{ property.first }}: {{ property.last }}</p>
+                  {%- endif -%}
+                {%- endfor -%}
+                <div class="cart-item__row">
+                  <div class="qty qty--small">
+                    <label for="Qty-{{ item.key }}" class="visually-hidden">{{ 'products.quantity' | t }}</label>
+                    <input id="Qty-{{ item.key }}" type="number" name="updates[]" value="{{ item.quantity }}" min="0" class="qty__input" data-cart-qty>
+                  </div>
+                  <a href="{{ item.url_to_remove }}" class="link-underline cart-item__remove">{{ 'cart.remove' | t }}</a>
+                </div>
+              </div>
+              <div class="cart-item__price">
+                {%- if item.original_line_price != item.final_line_price -%}
+                  <s>{{ item.original_line_price | money }}</s>
+                {%- endif -%}
+                <span>{{ item.final_line_price | money }}</span>
+              </div>
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+
+      <aside class="cart__summary">
+        <div class="cart__summary-row">
+          <span>{{ 'cart.subtotal' | t }}</span>
+          <span class="cart__subtotal">{{ cart.total_price | money }}</span>
+        </div>
+        {%- if settings.pix_discount > 0 -%}
+          {%- liquid
+            assign pix_factor = 100 | minus: settings.pix_discount
+            assign pix_total = cart.total_price | times: pix_factor | divided_by: 100
+            assign pix_total_money = pix_total | money
+          -%}
+          <p class="price__pix">{{ 'products.pix_html' | t: amount: pix_total_money, discount: settings.pix_discount }}</p>
+        {%- endif -%}
+        <p class="cart__note">{{ 'cart.taxes_note' | t }}</p>
+        <label for="CartNote" class="cart__note-label">{{ 'cart.note' | t }}</label>
+        <textarea id="CartNote" name="note" class="cart__textarea" rows="3">{{ cart.note }}</textarea>
+        <button type="submit" name="update" class="btn btn--outline btn--block">{{ 'cart.update' | t }}</button>
+        <button type="submit" name="checkout" class="btn btn--dark btn--block">{{ 'cart.checkout' | t }}</button>
+        {%- if additional_checkout_buttons -%}
+          <div class="cart__dynamic">{{ content_for_additional_checkout_buttons }}</div>
+        {%- endif -%}
+      </aside>
+    </form>
+  {%- else -%}
+    <div class="empty-state">
+      <p>{{ 'cart.empty' | t }}</p>
+      <a href="{{ routes.all_products_collection_url }}" class="btn btn--dark">{{ 'cart.continue' | t }}</a>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Carrinho",
+  "tag": "div",
+  "class": "section-main-cart",
+  "settings": []
+}
+{% endschema %}

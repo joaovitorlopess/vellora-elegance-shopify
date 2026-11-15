@@ -1,0 +1,37 @@
+<section class="section section--tight container container--wide">
+  <div class="collection-hero collection-hero--flush">
+    <p class="eyebrow">{{ 'blogs.eyebrow' | t }}</p>
+    <h1 class="h1">{{ blog.title | escape }}</h1>
+  </div>
+  {%- paginate blog.articles by 9 -%}
+    <ul class="article-grid" role="list">
+      {%- for article in blog.articles -%}
+        <li>
+          <a href="{{ article.url }}" class="article-card">
+            <div class="article-card__media">
+              {%- if article.image -%}
+                {{ article.image | image_url: width: 1000 | image_tag: widths: '450, 700, 1000', sizes: '(min-width: 990px) 33vw, 100vw', loading: 'lazy', class: 'article-card__img' }}
+              {%- else -%}
+                {{ 'lifestyle-1' | placeholder_svg_tag: 'article-card__img placeholder-svg' }}
+              {%- endif -%}
+            </div>
+            <p class="eyebrow">{{ article.published_at | time_tag: format: 'date' }}</p>
+            <h2 class="h3">{{ article.title | escape }}</h2>
+            <p class="article-card__excerpt">{{ article.excerpt_or_content | strip_html | truncatewords: 24 }}</p>
+            <span class="link-underline">{{ 'blogs.read_more' | t }}</span>
+          </a>
+        </li>
+      {%- endfor -%}
+    </ul>
+    {%- render 'pagination', paginate: paginate -%}
+  {%- endpaginate -%}
+</section>
+
+{% schema %}
+{
+  "name": "Blog",
+  "tag": "div",
+  "class": "section-main-blog",
+  "settings": []
+}
+{% endschema %}

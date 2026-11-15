@@ -1,0 +1,104 @@
+<section class="section section--{{ section.settings.background }}">
+  <div class="container container--wide">
+    {%- render 'section-heading',
+      eyebrow: section.settings.eyebrow,
+      heading: section.settings.heading,
+      align: 'center'
+    -%}
+
+    <ul class="testimonials" role="list">
+      {%- for block in section.blocks -%}
+        <li class="testimonial" data-reveal style="--reveal-delay: {{ forloop.index0 | times: 100 }}ms;" {{ block.shopify_attributes }}>
+          {%- if section.settings.show_stars -%}
+            <div class="testimonial__stars" aria-label="{{ 'general.five_stars' | t }}">
+              {%- for i in (1..5) -%}{%- render 'icon', icon: 'star' -%}{%- endfor -%}
+            </div>
+          {%- endif -%}
+          <blockquote class="testimonial__quote">
+            <p>{{ block.settings.quote | escape }}</p>
+          </blockquote>
+          <p class="testimonial__author">
+            <span>{{ block.settings.author | escape }}</span>
+            {%- if block.settings.location != blank -%}
+              <span class="testimonial__location">{{ block.settings.location | escape }}</span>
+            {%- endif -%}
+          </p>
+          {%- if block.settings.product != blank -%}
+            {%- assign p = block.settings.product -%}
+            <a href="{{ p.url }}" class="testimonial__product">
+              {%- if p.featured_image -%}
+                {{ p.featured_image | image_url: width: 120 | image_tag: loading: 'lazy', class: 'testimonial__product-img', alt: p.title }}
+              {%- endif -%}
+              <span>{{ p.title | escape }}</span>
+            </a>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Depoimentos",
+  "tag": "div",
+  "class": "section-testimonials",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Sobretítulo", "default": "Elas vestem Vellora" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "O que dizem nossas clientes" },
+    { "type": "checkbox", "id": "show_stars", "label": "Mostrar estrelas", "default": true },
+    {
+      "type": "select",
+      "id": "background",
+      "label": "Fundo",
+      "options": [
+        { "value": "default", "label": "Off-white" },
+        { "value": "alt", "label": "Bege claro" }
+      ],
+      "default": "default"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Depoimento",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Depoimento",
+          "default": "O caimento é impecável e o tecido tem um toque que eu nunca tinha sentido em uma marca nacional. Virou peça-chave do meu guarda-roupa."
+        },
+        { "type": "text", "id": "author", "label": "Nome", "default": "Mariana A." },
+        { "type": "text", "id": "location", "label": "Cidade", "default": "São Paulo, SP" },
+        { "type": "product", "id": "product", "label": "Produto comprado (opcional)" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Depoimentos",
+      "blocks": [
+        { "type": "testimonial" },
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Embalagem linda, entrega rápida e um atendimento pelo WhatsApp que parece de boutique. Comprei de novo na mesma semana.",
+            "author": "Camila R.",
+            "location": "Rio de Janeiro, RJ"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Peças elegantes sem esforço. Uso o blazer no trabalho e no jantar — sempre recebo elogios.",
+            "author": "Helena M.",
+            "location": "Belo Horizonte, MG"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

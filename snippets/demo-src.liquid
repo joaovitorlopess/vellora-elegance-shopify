@@ -1,0 +1,55 @@
+{%- comment -%}
+  Devolve a URL de uma imagem de demonstração.
+  - Fonte "photos": fotos reais do Unsplash (licença livre, uso comercial permitido),
+    recortadas no servidor no tamanho pedido.
+  - Fonte "fabric": texturas de tecido incluídas no tema (assets/vellora-*.jpg).
+
+  Parâmetros: name (ex.: 'vellora-category-1'), w, h (tamanho do recorte), mobile (booleano)
+{%- endcomment -%}
+{%- liquid
+  assign photo_id = ''
+  case name
+    when 'vellora-hero-1'
+      assign photo_id = '1751973016433-377b96694b0a'
+    when 'vellora-hero-2'
+      assign photo_id = '1752074212160-b3b16216a07d'
+    when 'vellora-category-1'
+      assign photo_id = '1568090369448-ede47e8919ec'
+    when 'vellora-category-2'
+      assign photo_id = '1625519205691-1b6b7b24622e'
+    when 'vellora-category-3'
+      assign photo_id = '1599148069936-86329a962356'
+    when 'vellora-campaign'
+      assign photo_id = '1785158377528-d8cbd55a991e'
+    when 'vellora-detail'
+      assign photo_id = '1537860882639-64db99c8d1de'
+    when 'vellora-promo'
+      assign photo_id = '1747817230321-4ad317ac0809'
+    when 'vellora-product-1'
+      assign photo_id = '1616348490852-d80c545b4f79'
+    when 'vellora-product-2'
+      assign photo_id = '1590873802674-55bb8f947bc5'
+    when 'vellora-product-3'
+      assign photo_id = '1774005906344-57048d3f5856'
+    when 'vellora-product-4'
+      assign photo_id = '1578875182177-ef940acf63e7'
+    when 'vellora-product-5'
+      assign photo_id = '1497920261388-9c5866b65061'
+    when 'vellora-product-6'
+      assign photo_id = '1614698203824-4f218a958adf'
+  endcase
+
+  if settings.demo_source == 'photos' and photo_id != ''
+    echo 'https://images.unsplash.com/photo-' | append: photo_id | append: '?auto=format&fit=crop&crop=faces%2Ccenter&q=75&w=' | append: w | append: '&h=' | append: h
+  else
+    assign file = name
+    if name == 'vellora-promo'
+      assign file = 'vellora-campaign'
+    endif
+    if mobile
+      assign file = file | append: '-mobile'
+    endif
+    assign file = file | append: '.jpg'
+    echo file | asset_url
+  endif
+-%}

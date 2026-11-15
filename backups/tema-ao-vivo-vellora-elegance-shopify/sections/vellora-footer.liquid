@@ -1,0 +1,10 @@
+<footer class="site-footer">
+  <div class="page-width footer-grid">
+    <div><a class="footer-brand" href="{{ routes.root_url }}">{{ shop.name | default: 'Vellora Elegance' }}</a><p>Elegância que acompanha você. Peças escolhidas para valorizar o seu estilo em todos os momentos.</p></div>
+    <div><h2>Atendimento</h2><a href="/pages/contato">Fale conosco</a><a href="/pages/politica-de-envio">Envio e entrega</a><a href="/pages/trocas-e-devolucoes">Trocas e devoluções</a></div>
+    <div><h2>Informações</h2><a href="/policies/privacy-policy">Privacidade</a><a href="/policies/terms-of-service">Termos de serviço</a><a href="/policies/refund-policy">Reembolso</a></div>
+    <div><h2>Novidades</h2><p>Inspire-se com a Vellora e descubra novidades da coleção.</p></div>
+  </div>
+  <div class="footer-bottom">© {{ 'now' | date: '%Y' }} {{ shop.name | default: 'Vellora Elegance' }}. Todos os direitos reservados.</div>
+</footer>
+{% schema %}{"name":"Rodapé Vellora","settings":[]} {% endschema %}

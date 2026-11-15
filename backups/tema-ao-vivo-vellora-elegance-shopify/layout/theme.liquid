@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code | default: 'pt-BR' }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="{{ settings.color_accent }}">
+  <title>{% if page_title %}{{ page_title }}{% else %}Vellora Elegance{% endif %}{% if current_tags %} — {{ current_tags | join: ', ' }}{% endif %}{% if current_page != 1 %} — Página {{ current_page }}{% endif %}</title>
+  {% if page_description %}<meta name="description" content="{{ page_description | escape }}">{% endif %}
+  {{ content_for_header }}
+  {{ 'vellora.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'vellora.js' | asset_url }}" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#MainContent">Pular para o conteúdo</a>
+  {% sections 'header-group' %}
+  <main id="MainContent" role="main">{{ content_for_layout }}</main>
+  {% sections 'footer-group' %}
+</body>
+</html>

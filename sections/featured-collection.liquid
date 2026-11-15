@@ -1,0 +1,147 @@
+{%- liquid
+  assign collection = section.settings.collection
+  assign columns = section.settings.columns
+  assign limit = section.settings.products_to_show
+  assign view_all_url = collection.url | default: routes.all_products_collection_url
+
+  case columns
+    when 2
+      assign sizes = '(min-width: 990px) 45vw, 50vw'
+    when 3
+      assign sizes = '(min-width: 990px) 30vw, (min-width: 750px) 33vw, 50vw'
+    when 5
+      assign sizes = '(min-width: 990px) 18vw, (min-width: 750px) 33vw, 50vw'
+    else
+      assign sizes = '(min-width: 990px) 23vw, (min-width: 750px) 33vw, 50vw'
+  endcase
+-%}
+
+<section class="section section--{{ section.settings.background }}" style="--columns: {{ columns }};">
+  <div class="container container--wide">
+    {%- assign link_label = '' -%}
+    {%- if section.settings.show_view_all -%}{%- assign link_label = section.settings.view_all_label -%}{%- endif -%}
+    {%- render 'section-heading',
+      eyebrow: section.settings.eyebrow,
+      heading: section.settings.heading,
+      link_label: link_label,
+      link_url: view_all_url,
+      align: section.settings.heading_align
+    -%}
+
+    <ul
+      class="product-grid{% if section.settings.mobile_slider %} product-grid--slider-mobile{% endif %}"
+      role="list"
+    >
+      {%- if collection != blank and collection.products_count > 0 -%}
+        {%- for product in collection.products limit: limit -%}
+          <li class="product-grid__item" data-reveal style="--reveal-delay: {{ forloop.index0 | modulo: columns | times: 80 }}ms;">
+            {%- render 'product-card', product: product, sizes: sizes -%}
+          </li>
+        {%- endfor -%}
+      {%- else -%}
+        {%- assign demo_titles = 'Vestido Tubinho Bege|Blazer de Alfaiataria Areia|Calça Pantalona de Linho|Blusa Fluida Preta|Saia Plissada Midi|Suéter de Tricô Mescla' | split: '|' -%}
+        {%- assign demo_prices = '79900|119900|64900|49900|69900|59900' | split: '|' -%}
+        {%- for i in (1..limit) -%}
+          {%- assign demo_index = forloop.index0 | modulo: 6 -%}
+          {%- assign demo_n = demo_index | plus: 1 -%}
+          {%- assign demo_price = demo_prices[demo_index] | plus: 0 -%}
+          <li class="product-grid__item" data-reveal style="--reveal-delay: {{ forloop.index0 | modulo: columns | times: 80 }}ms;">
+            <article class="card">
+              <div class="card__media-wrap">
+                <div class="card__media">
+                  {%- if settings.demo_images -%}
+                    {%- assign demo_name = 'vellora-product-' | append: demo_n -%}
+                    {%- render 'demo-image', name: demo_name, class: 'card__img', alt: demo_titles[demo_index], width: 900, height: 1200, sizes: sizes -%}
+                  {%- else -%}
+                    {%- capture placeholder -%}product-{{ demo_n }}{%- endcapture -%}
+                    {{ placeholder | placeholder_svg_tag: 'card__img placeholder-svg' }}
+                  {%- endif -%}
+                </div>
+                {%- if forloop.index0 == 0 -%}
+                  <div class="card__badges"><span class="badge">{{ 'products.new' | t }}</span></div>
+                {%- endif -%}
+              </div>
+              <div class="card__info">
+                <h3 class="card__title">{{ demo_titles[demo_index] }}</h3>
+                {%- render 'price', price: demo_price, show_extras: true -%}
+              </div>
+            </article>
+          </li>
+        {%- endfor -%}
+      {%- endif -%}
+    </ul>
+
+    {%- if section.settings.show_view_all and section.settings.view_all_style == 'button' -%}
+      <div class="section__footer">
+        <a href="{{ view_all_url }}" class="btn btn--outline">{{ section.settings.view_all_label | escape }}</a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Coleção em destaque",
+  "tag": "div",
+  "class": "section-featured-collection",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Sobretítulo", "default": "Recém-chegados" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "Novidades" },
+    {
+      "type": "select",
+      "id": "heading_align",
+      "label": "Alinhamento do título",
+      "options": [
+        { "value": "left", "label": "Esquerda (com link ao lado)" },
+        { "value": "center", "label": "Centro" }
+      ],
+      "default": "left"
+    },
+    { "type": "collection", "id": "collection", "label": "Coleção" },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Quantidade de produtos",
+      "min": 2,
+      "max": 16,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Colunas no desktop",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 4
+    },
+    { "type": "checkbox", "id": "mobile_slider", "label": "Carrossel deslizante no celular", "default": true },
+    { "type": "checkbox", "id": "show_view_all", "label": "Mostrar \"Ver tudo\"", "default": true },
+    { "type": "text", "id": "view_all_label", "label": "Texto do link", "default": "Ver tudo" },
+    {
+      "type": "select",
+      "id": "view_all_style",
+      "label": "Estilo do \"Ver tudo\"",
+      "options": [
+        { "value": "link", "label": "Link ao lado do título" },
+        { "value": "button", "label": "Botão abaixo dos produtos" }
+      ],
+      "default": "link"
+    },
+    {
+      "type": "select",
+      "id": "background",
+      "label": "Fundo",
+      "options": [
+        { "value": "default", "label": "Off-white" },
+        { "value": "alt", "label": "Bege claro" }
+      ],
+      "default": "default"
+    }
+  ],
+  "presets": [
+    { "name": "Coleção em destaque" }
+  ]
+}
+{% endschema %}

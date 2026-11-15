@@ -1,0 +1,47 @@
+<section class="section section--tight container container--wide">
+  <div class="collection-hero collection-hero--flush">
+    <p class="eyebrow">{{ 'search.title' | t }}</p>
+    <form action="{{ routes.search_url }}" method="get" role="search" class="search-page__form">
+      <label for="SearchPage" class="visually-hidden">{{ 'search.placeholder' | t }}</label>
+      <input id="SearchPage" type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'search.placeholder' | t }}" class="search-page__input">
+      <input type="hidden" name="options[prefix]" value="last">
+      <button type="submit" class="icon-btn" aria-label="{{ 'search.submit' | t }}">{%- render 'icon', icon: 'search' -%}</button>
+    </form>
+    {%- if search.performed -%}
+      <p class="collection-toolbar__count">{{ 'search.results_for' | t: count: search.results_count, terms: search.terms }}</p>
+    {%- endif -%}
+  </div>
+
+  {%- if search.performed -%}
+    {%- paginate search.results by 24 -%}
+      {%- if search.results_count > 0 -%}
+        <ul class="product-grid" role="list" style="--columns: 4;">
+          {%- for item in search.results -%}
+            <li class="product-grid__item">
+              {%- if item.object_type == 'product' -%}
+                {%- render 'product-card', product: item -%}
+              {%- else -%}
+                <a href="{{ item.url }}" class="search-result">
+                  <p class="eyebrow">{{ item.object_type }}</p>
+                  <p class="h3">{{ item.title | escape }}</p>
+                </a>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- else -%}
+        <p class="empty-state">{{ 'search.no_results' | t }}</p>
+      {%- endif -%}
+      {%- render 'pagination', paginate: paginate -%}
+    {%- endpaginate -%}
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Busca",
+  "tag": "div",
+  "class": "section-main-search",
+  "settings": []
+}
+{% endschema %}

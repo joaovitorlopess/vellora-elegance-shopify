@@ -1,0 +1,14 @@
+<section class="hero">
+  <div class="hero-image" style="{% if section.settings.image != blank %}background-image:url('{{ section.settings.image | image_url: width: 2200 }}');{% endif %}"></div>
+  <div class="hero-shade"></div>
+  <div class="hero-content page-width">
+    {% if section.settings.eyebrow != blank %}<p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>{% endif %}
+    <h1>{{ section.settings.heading | escape }}</h1>
+    <p class="hero-copy">{{ section.settings.text | escape }}</p>
+    <a class="button button-light" href="{{ section.settings.button_link | default: '/collections/all' }}">{{ section.settings.button_label | escape }} <span aria-hidden="true">↗</span></a>
+  </div>
+  <div class="hero-index">01 <span></span> VELLORA EDIT</div>
+</section>
+{% schema %}
+{"name":"Capa editorial","settings":[{"type":"image_picker","id":"image","label":"Imagem de fundo"},{"type":"text","id":"eyebrow","label":"Texto superior","default":"A NOVA TEMPORADA CHEGOU"},{"type":"text","id":"heading","label":"Título","default":"Vista a sua melhor versão."},{"type":"textarea","id":"text","label":"Descrição","default":"Moda feminina com personalidade, sofisticação e detalhes que fazem a diferença."},{"type":"text","id":"button_label","label":"Texto do botão","default":"Descobrir coleção"},{"type":"url","id":"button_link","label":"Link do botão"}]}
+{% endschema %}

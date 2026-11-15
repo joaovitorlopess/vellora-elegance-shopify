@@ -1,0 +1,81 @@
+<section class="section section--{{ section.settings.background }}">
+  <div class="container container--narrow rich-text rich-text--{{ section.settings.alignment }}" data-reveal>
+    {%- if section.settings.show_ornament -%}
+      <span class="ornament" aria-hidden="true"></span>
+    {%- endif -%}
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>
+    {%- endif -%}
+    {%- if section.settings.heading != blank -%}
+      <h2 class="{{ section.settings.heading_size }} rich-text__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.text != blank -%}
+      <div class="rte rich-text__body">{{ section.settings.text }}</div>
+    {%- endif -%}
+    {%- if section.settings.button_label != blank -%}
+      <a href="{{ section.settings.button_link | default: routes.all_products_collection_url }}" class="link-underline rich-text__link">
+        {{- section.settings.button_label | escape -}}
+      </a>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Manifesto / texto",
+  "tag": "div",
+  "class": "section-rich-text",
+  "settings": [
+    { "type": "checkbox", "id": "show_ornament", "label": "Mostrar linha dourada decorativa", "default": true },
+    { "type": "text", "id": "eyebrow", "label": "Sobretítulo", "default": "Nossa essência" },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Título",
+      "default": "Criamos peças para mulheres que não precisam <em>anunciar</em> a própria elegância."
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Tamanho do título",
+      "options": [
+        { "value": "h1", "label": "Grande" },
+        { "value": "h2", "label": "Médio" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Texto",
+      "default": "<p>Tecidos nobres, modelagens precisas e uma paleta que atravessa estações. Cada coleção da Vellora é desenhada para compor um guarda-roupa duradouro — menos excesso, mais intenção.</p>"
+    },
+    { "type": "text", "id": "button_label", "label": "Texto do link", "default": "Conheça a marca" },
+    { "type": "url", "id": "button_link", "label": "Link" },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Alinhamento",
+      "options": [
+        { "value": "left", "label": "Esquerda" },
+        { "value": "center", "label": "Centro" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "background",
+      "label": "Fundo",
+      "options": [
+        { "value": "default", "label": "Off-white" },
+        { "value": "alt", "label": "Bege claro" },
+        { "value": "dark", "label": "Preto" }
+      ],
+      "default": "default"
+    }
+  ],
+  "presets": [
+    { "name": "Manifesto / texto" }
+  ]
+}
+{% endschema %}

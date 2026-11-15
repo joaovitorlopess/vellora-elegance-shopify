@@ -1,0 +1,99 @@
+<section class="section section--{{ section.settings.background }}{% if section.settings.full_width %} section--flush{% endif %}">
+  <div class="{% if section.settings.full_width %}image-text--full{% else %}container container--wide{% endif %}">
+    <div class="image-text image-text--{{ section.settings.image_position }}">
+      <div class="image-text__media" data-reveal>
+        {%- if section.settings.image -%}
+          {{
+            section.settings.image
+            | image_url: width: 2000
+            | image_tag:
+              widths: '600, 900, 1200, 1600, 2000',
+              sizes: '(min-width: 990px) 50vw, 100vw',
+              loading: 'lazy',
+              class: 'image-text__img'
+          }}
+        {%- elsif settings.demo_images -%}
+          {%- render 'demo-image', name: 'vellora-campaign', class: 'image-text__img', width: 1440, height: 1800, sizes: '(min-width: 990px) 50vw, 100vw' -%}
+        {%- else -%}
+          {{ 'lifestyle-2' | placeholder_svg_tag: 'image-text__img placeholder-svg' }}
+        {%- endif -%}
+        {%- if section.settings.image_2 -%}
+          <div class="image-text__inset">
+            {{
+              section.settings.image_2
+              | image_url: width: 800
+              | image_tag: widths: '300, 500, 800', sizes: '(min-width: 990px) 18vw, 40vw', loading: 'lazy', class: 'image-text__inset-img'
+            }}
+          </div>
+        {%- elsif section.settings.image == blank and settings.demo_images -%}
+          <div class="image-text__inset">
+            {%- render 'demo-image', name: 'vellora-detail', class: 'image-text__inset-img', width: 720, height: 960, sizes: '(min-width: 990px) 18vw, 34vw' -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="image-text__content" data-reveal style="--reveal-delay: 120ms;">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="h1 image-text__heading">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.text != blank -%}
+          <div class="rte image-text__body">{{ section.settings.text }}</div>
+        {%- endif -%}
+        {%- if section.settings.button_label != blank -%}
+          <a href="{{ section.settings.button_link | default: routes.all_products_collection_url }}" class="btn btn--dark">
+            {{- section.settings.button_label | escape -}}
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Imagem com texto",
+  "tag": "div",
+  "class": "section-image-text",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Imagem principal", "info": "Recomendado: retrato 4:5." },
+    { "type": "image_picker", "id": "image_2", "label": "Imagem secundária (detalhe sobreposto)" },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Posição da imagem",
+      "options": [
+        { "value": "left", "label": "Esquerda" },
+        { "value": "right", "label": "Direita" }
+      ],
+      "default": "left"
+    },
+    { "type": "checkbox", "id": "full_width", "label": "Largura total (sem margens)", "default": false },
+    { "type": "text", "id": "eyebrow", "label": "Sobretítulo", "default": "Coleção cápsula" },
+    { "type": "inline_richtext", "id": "heading", "label": "Título", "default": "Seda, linho e <em>leveza</em>" },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Texto",
+      "default": "<p>Uma edição limitada de peças em fibras naturais, pensadas para os dias quentes e as noites sem pressa. Produzidas em pequenos lotes, com acabamento artesanal.</p>"
+    },
+    { "type": "text", "id": "button_label", "label": "Texto do botão", "default": "Comprar a cápsula" },
+    { "type": "url", "id": "button_link", "label": "Link do botão" },
+    {
+      "type": "select",
+      "id": "background",
+      "label": "Fundo",
+      "options": [
+        { "value": "default", "label": "Off-white" },
+        { "value": "alt", "label": "Bege claro" }
+      ],
+      "default": "alt"
+    }
+  ],
+  "presets": [
+    { "name": "Imagem com texto" }
+  ]
+}
+{% endschema %}

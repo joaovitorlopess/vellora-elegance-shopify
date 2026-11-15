@@ -1,0 +1,57 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "header",
+  "name": "Grupo do cabeçalho",
+  "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "blocks": {
+        "announcement-1": {
+          "type": "announcement",
+          "settings": {
+            "text": "Frete grátis para todo o Brasil acima de R$ 499"
+          }
+        },
+        "announcement-2": {
+          "type": "announcement",
+          "settings": {
+            "text": "Até 6x sem juros  ·  5% off no Pix"
+          }
+        },
+        "announcement-3": {
+          "type": "announcement",
+          "settings": {
+            "text": "Primeira troca grátis em até 30 dias"
+          }
+        }
+      },
+      "block_order": ["announcement-1", "announcement-2", "announcement-3"],
+      "settings": {
+        "color_bg": "#141414",
+        "color_text": "#E3D5BE",
+        "interval": 5
+      }
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "logo_width": 170,
+        "menu": "main-menu",
+        "show_search": true,
+        "search_suggestions": "Vestidos, Alfaiataria, Seda, Tricô",
+        "show_account": true,
+        "sticky": true,
+        "transparent_home": true
+      }
+    }
+  },
+  "order": ["announcement-bar", "header"]
+}

@@ -1,0 +1,27 @@
+<section class="product-page page-width">
+  <div class="product-layout">
+    <div class="product-gallery">{% if product.media.size > 0 %}{% for media in product.media %}<div class="gallery-item">{{ media | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '500, 800, 1100, 1400', alt: media.alt | default: product.title }}{% if media.media_type == 'video' or media.media_type == 'external_video' %}<span class="media-note">Conteúdo de mídia disponível na página do produto.</span>{% endif %}</div>{% endfor %}{% else %}<div class="image-placeholder">VELLORA</div>{% endif %}</div>
+    <div class="product-details"><p class="eyebrow">VELLORA ELEGANCE</p><h1>{{ product.title | escape }}</h1><div class="detail-price" id="ProductPrice-{{ section.id }}">{{ product.selected_or_first_available_variant.price | money }}{% if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price %}<s>{{ product.selected_or_first_available_variant.compare_at_price | money }}</s>{% endif %}</div>
+      {% if product.description != blank %}<div class="product-description">{{ product.description }}</div>{% endif %}
+      {% form section.id, class: 'product-form' %}
+        {% unless product.has_only_default_variant %}<label for="Variant-{{ section.id }}">Opções</label><select id="Variant-{{ section.id }}" name="id">{% for variant in product.variants %}<option value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected{% endif %} {% unless variant.available %}disabled{% endunless %}>{{ variant.title | escape }} — {{ variant.price | money }}{% unless variant.available %} (Esgotado){% endunless %}</option>{% endfor %}</select>{% else %}<input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">{% endunless %}
+        <label for="Quantity-{{ section.id }}">Quantidade</label><input id="Quantity-{{ section.id }}" type="number" name="quantity" value="1" min="1" max="99">
+        <button class="button button-dark add-to-cart" type="submit" name="add" {% unless product.available %}disabled{% endunless %}>{% if product.available %}Adicionar à sacola{% else %}Produto esgotado{% endif %}</button>
+        {{ form | payment_button }}
+        {% if form.errors %}<div class="form-error">{{ form.errors | default_errors }}</div>{% endif %}
+      {% endform %}
+      <div class="product-assurance"><p>✓ Checkout seguro pela Shopify</p><p>✓ Valores e disponibilidade atualizados pela loja</p></div>
+    </div>
+  </div>
+</section>
+{% schema %}{"name":"Produto principal","settings":[]} {% endschema %}{%- comment -%}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{% form 'product', product, id: 'ProductForm-' | append: section.id, class:
+    'product-form' %}"
+  to: "{% form section.id, class: 'product-form' %}"
+  position: 1174..1218
+{%- endcomment -%}
