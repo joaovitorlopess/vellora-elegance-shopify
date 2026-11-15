@@ -97,7 +97,8 @@
         "style": "outline",
         "duration": 45,
         "aria_label": "Destaques da marca"
-      }
+      },
+      "disabled": true
     },
     "categories": {
       "type": "collection-list",
@@ -149,7 +150,8 @@
         "view_all_label": "Ver tudo",
         "view_all_style": "link",
         "background": "default"
-      }
+      },
+      "disabled": true
     },
     "manifesto": {
       "type": "rich-text",
@@ -285,10 +287,70 @@
         "text": "<p>Receba em primeira mão lançamentos, edições limitadas e 10% off na sua primeira compra.</p>",
         "disclaimer": "Ao se inscrever, você concorda com nossa Política de Privacidade. Cancele quando quiser."
       }
+    },
+    "novidades": {
+      "type": "product-strip",
+      "settings": {
+        "heading": "Novidades",
+        "link_label": "Confira",
+        "link": "/collections/all",
+        "products_to_show": 8,
+        "show_info": true,
+        "background": "default"
+      }
+    },
+    "destaques": {
+      "type": "category-banners",
+      "blocks": {
+        "b1": {
+          "type": "banner",
+          "settings": {
+            "title": "Festa",
+            "label": "Confira",
+            "link": "/collections/all",
+            "text_color": "light",
+            "focal_style": "object-position: center top;"
+          }
+        },
+        "b2": {
+          "type": "banner",
+          "settings": {
+            "title": "Alfaiataria",
+            "label": "Confira",
+            "link": "/collections/all",
+            "text_color": "light",
+            "focal_style": "object-position: center top;"
+          }
+        },
+        "b3": {
+          "type": "banner",
+          "settings": {
+            "title": "Tricô",
+            "label": "Confira",
+            "link": "/collections/all",
+            "text_color": "light",
+            "focal_style": "object-position: center top;"
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3"
+      ],
+      "settings": {
+        "columns": 3,
+        "ratio": "4 / 5",
+        "text_position": "top",
+        "gap": true,
+        "aria_label": "Categorias em destaque"
+      }
     }
   },
   "order": [
     "hero",
+    "novidades",
+    "destaques",
     "ticker",
     "categories",
     "new-arrivals",

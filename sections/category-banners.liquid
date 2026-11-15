@@ -1,0 +1,120 @@
+{%- liquid
+  assign columns = section.settings.columns
+  case columns
+    when 2
+      assign sizes = '(min-width: 750px) 50vw, 86vw'
+    when 4
+      assign sizes = '(min-width: 990px) 25vw, (min-width: 750px) 50vw, 86vw'
+    else
+      assign sizes = '(min-width: 750px) 34vw, 86vw'
+  endcase
+-%}
+
+<section class="tiles{% if section.settings.gap %} tiles--gap{% endif %}" style="--tile-columns: {{ columns }}; --tile-ratio: {{ section.settings.ratio }};" aria-label="{{ section.settings.aria_label | escape }}">
+  <ul class="tiles__list" role="list">
+    {%- for block in section.blocks -%}
+      {%- assign demo_n = forloop.index0 | modulo: 3 | plus: 1 -%}
+      <li class="tiles__item" {{ block.shopify_attributes }}>
+        <a href="{{ block.settings.link | default: routes.all_products_collection_url }}" class="tile tile--{{ block.settings.text_color }} tile--{{ section.settings.text_position }}">
+          <span class="tile__media">
+            {%- if block.settings.image -%}
+              {{
+                block.settings.image
+                | image_url: width: 1600
+                | image_tag: widths: '600, 900, 1200, 1600', sizes: sizes, loading: 'lazy', class: 'tile__img', alt: block.settings.image.alt, style: block.settings.focal_style
+              }}
+            {%- elsif settings.demo_images -%}
+              {%- assign demo_name = 'vellora-category-' | append: demo_n -%}
+              {%- render 'demo-image', name: demo_name, class: 'tile__img', width: 1050, height: 1400, sizes: sizes -%}
+            {%- else -%}
+              {%- assign ph_n = demo_n | modulo: 2 | plus: 1 -%}
+              {%- capture placeholder -%}lifestyle-{{ ph_n }}{%- endcapture -%}
+              {{ placeholder | placeholder_svg_tag: 'tile__img placeholder-svg placeholder-svg--dark' }}
+            {%- endif -%}
+          </span>
+          <span class="tile__text">
+            <span class="tile__title">{{ block.settings.title | escape }}</span>
+            {%- if block.settings.label != blank -%}
+              <span class="tile__label">{{ block.settings.label | escape }}<span class="strip__cta-mark" aria-hidden="true"></span></span>
+            {%- endif -%}
+          </span>
+        </a>
+      </li>
+    {%- endfor -%}
+  </ul>
+</section>
+
+{% schema %}
+{
+  "name": "Banners de categoria",
+  "tag": "div",
+  "class": "section-tiles",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "range", "id": "columns", "label": "Colunas no desktop", "min": 2, "max": 4, "step": 1, "default": 3 },
+    {
+      "type": "select",
+      "id": "ratio",
+      "label": "Proporção",
+      "options": [
+        { "value": "3 / 4", "label": "Retrato (3:4)" },
+        { "value": "4 / 5", "label": "Retrato curto (4:5)" },
+        { "value": "2 / 3", "label": "Retrato alto (2:3)" },
+        { "value": "1 / 1", "label": "Quadrado" }
+      ],
+      "default": "4 / 5"
+    },
+    {
+      "type": "select",
+      "id": "text_position",
+      "label": "Posição do título",
+      "options": [
+        { "value": "top", "label": "Topo" },
+        { "value": "bottom", "label": "Base" }
+      ],
+      "default": "top"
+    },
+    { "type": "checkbox", "id": "gap", "label": "Espaço fino entre os banners", "default": true },
+    { "type": "text", "id": "aria_label", "label": "Nome acessível da seção", "default": "Categorias em destaque" }
+  ],
+  "blocks": [
+    {
+      "type": "banner",
+      "name": "Banner",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Imagem", "info": "Recomendado: 1200 x 1500 px (retrato)." },
+        {
+          "type": "select",
+          "id": "focal_style",
+          "label": "Foco da imagem",
+          "options": [
+            { "value": "object-position: center center;", "label": "Centro" },
+            { "value": "object-position: center top;", "label": "Topo" },
+            { "value": "object-position: center bottom;", "label": "Base" }
+          ],
+          "default": "object-position: center center;"
+        },
+        { "type": "text", "id": "title", "label": "Título", "default": "Vestidos" },
+        { "type": "text", "id": "label", "label": "Texto do link", "default": "Confira" },
+        { "type": "url", "id": "link", "label": "Link" },
+        {
+          "type": "select",
+          "id": "text_color",
+          "label": "Cor do texto",
+          "options": [
+            { "value": "light", "label": "Claro" },
+            { "value": "dark", "label": "Escuro" }
+          ],
+          "default": "light"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Banners de categoria",
+      "blocks": [{ "type": "banner" }, { "type": "banner" }, { "type": "banner" }]
+    }
+  ]
+}
+{% endschema %}

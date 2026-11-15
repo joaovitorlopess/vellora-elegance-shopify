@@ -1,0 +1,105 @@
+{%- liquid
+  assign collection = section.settings.collection
+  assign limit = section.settings.products_to_show
+  assign link_url = section.settings.link | default: collection.url | default: routes.all_products_collection_url
+  assign sizes = '(min-width: 990px) 16vw, (min-width: 750px) 28vw, 44vw'
+-%}
+
+<section class="strip section--{{ section.settings.background }}" aria-labelledby="StripHeading-{{ section.id }}">
+  <div class="strip__inner container container--wide">
+    <header class="strip__aside">
+      <h2 class="strip__title" id="StripHeading-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+      {%- if section.settings.link_label != blank -%}
+        <a href="{{ link_url }}" class="strip__cta">
+          {{- section.settings.link_label | escape -}}
+          <span class="strip__cta-mark" aria-hidden="true"></span>
+        </a>
+      {%- endif -%}
+    </header>
+
+    <div class="strip__viewport" data-scroller>
+      <ul class="strip__track" role="list" data-scroller-track tabindex="0" aria-label="{{ section.settings.heading | escape }}">
+        {%- if collection != blank and collection.products_count > 0 -%}
+          {%- for product in collection.products limit: limit -%}
+            <li class="strip__item">
+              <a href="{{ product.url }}" class="strip__card">
+                <span class="strip__media">
+                  {%- if product.featured_media -%}
+                    {{
+                      product.featured_media.preview_image
+                      | image_url: width: 900
+                      | image_tag: widths: '300, 450, 600, 900', sizes: sizes, loading: 'lazy', class: 'strip__img', alt: product.title
+                    }}
+                  {%- else -%}
+                    {{ 'product-1' | placeholder_svg_tag: 'strip__img placeholder-svg' }}
+                  {%- endif -%}
+                </span>
+                {%- if section.settings.show_info -%}
+                  <span class="strip__name">{{ product.title | escape }}</span>
+                  <span class="strip__price">{{ product.price | money }}</span>
+                {%- endif -%}
+              </a>
+            </li>
+          {%- endfor -%}
+        {%- else -%}
+          {%- assign demo_titles = 'Vestido Tubinho Bege|Blazer de Alfaiataria Areia|Calça Pantalona de Linho|Blusa Fluida Preta|Saia Plissada Midi|Suéter de Tricô Mescla' | split: '|' -%}
+          {%- assign demo_prices = '79900|119900|64900|49900|69900|59900' | split: '|' -%}
+          {%- for i in (1..limit) -%}
+            {%- assign demo_index = forloop.index0 | modulo: 6 -%}
+            {%- assign demo_n = demo_index | plus: 1 -%}
+            {%- assign demo_price = demo_prices[demo_index] | plus: 0 -%}
+            <li class="strip__item">
+              <a href="{{ link_url }}" class="strip__card">
+                <span class="strip__media">
+                  {%- if settings.demo_images -%}
+                    {%- assign demo_name = 'vellora-product-' | append: demo_n -%}
+                    {%- render 'demo-image', name: demo_name, class: 'strip__img', alt: demo_titles[demo_index], width: 900, height: 1200, sizes: sizes -%}
+                  {%- else -%}
+                    {%- capture placeholder -%}product-{{ demo_n }}{%- endcapture -%}
+                    {{ placeholder | placeholder_svg_tag: 'strip__img placeholder-svg' }}
+                  {%- endif -%}
+                </span>
+                {%- if section.settings.show_info -%}
+                  <span class="strip__name">{{ demo_titles[demo_index] }}</span>
+                  <span class="strip__price">{{ demo_price | money }}</span>
+                {%- endif -%}
+              </a>
+            </li>
+          {%- endfor -%}
+        {%- endif -%}
+      </ul>
+
+      <div class="scroller-nav">
+        <button type="button" class="icon-btn scroller-nav__btn" data-scroller-prev aria-label="{{ 'accessibility.previous' | t }}" disabled>{%- render 'icon', icon: 'chevron-left' -%}</button>
+        <button type="button" class="icon-btn scroller-nav__btn" data-scroller-next aria-label="{{ 'accessibility.next' | t }}">{%- render 'icon', icon: 'chevron-right' -%}</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Faixa de produtos",
+  "tag": "div",
+  "class": "section-strip",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Título", "default": "Novidades" },
+    { "type": "text", "id": "link_label", "label": "Texto do link", "default": "Confira" },
+    { "type": "url", "id": "link", "label": "Link", "info": "Se vazio, abre a coleção escolhida." },
+    { "type": "collection", "id": "collection", "label": "Coleção" },
+    { "type": "range", "id": "products_to_show", "label": "Quantidade de produtos", "min": 3, "max": 12, "step": 1, "default": 8 },
+    { "type": "checkbox", "id": "show_info", "label": "Mostrar nome e preço", "default": true },
+    {
+      "type": "select",
+      "id": "background",
+      "label": "Fundo",
+      "options": [
+        { "value": "default", "label": "Branco" },
+        { "value": "alt", "label": "Cinza claro" }
+      ],
+      "default": "default"
+    }
+  ],
+  "presets": [{ "name": "Faixa de produtos" }]
+}
+{% endschema %}

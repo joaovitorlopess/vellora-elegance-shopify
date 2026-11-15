@@ -482,10 +482,34 @@
     qsa('.site-footer__details[open]', root).forEach(function (d) { d.removeAttribute('open'); });
   }
 
+  /* Carrossel horizontal com setas (faixa de produtos) ------------------- */
+  function initScrollers(root) {
+    qsa('[data-scroller]', root).forEach(function (el) {
+      var track = qs('[data-scroller-track]', el);
+      var prev = qs('[data-scroller-prev]', el);
+      var next = qs('[data-scroller-next]', el);
+      if (!track) return;
+      function update() {
+        var max = track.scrollWidth - track.clientWidth - 2;
+        if (prev) prev.disabled = track.scrollLeft <= 2;
+        if (next) next.disabled = track.scrollLeft >= max;
+      }
+      function step(dir) {
+        track.scrollBy({ left: dir * track.clientWidth * 0.8, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+      }
+      if (prev) prev.addEventListener('click', function () { step(-1); });
+      if (next) next.addEventListener('click', function () { step(1); });
+      track.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+    });
+  }
+
   /* Inicialização -------------------------------------------------------- */
   function initSections(root) {
     initAnnouncement(root);
     initSlideshows(root);
+    initScrollers(root);
     initReveal(root);
     initProduct(root);
     initFooterAccordions(root);
