@@ -1,34 +1,79 @@
-{%- if section.blocks.size > 0 -%}
-  <div
-    class="announcement"
-    style="--announcement-bg: {{ section.settings.color_bg }}; --announcement-text: {{ section.settings.color_text }};"
-    data-announcement
-    data-interval="{{ section.settings.interval | times: 1000 }}"
-    role="region"
-    aria-label="{{ 'header.announcement' | t }}"
-  >
-    <div class="announcement__track container container--wide">
-      {%- for block in section.blocks -%}
-        <div class="announcement__item{% if forloop.first %} is-active{% endif %}" data-announcement-item {{ block.shopify_attributes }}>
-          {%- if block.settings.link != blank -%}
-            <a href="{{ block.settings.link }}" class="announcement__link">{{ block.settings.text | escape }}</a>
-          {%- else -%}
-            <span>{{ block.settings.text | escape }}</span>
-          {%- endif -%}
-        </div>
-      {%- endfor -%}
+{%- liquid
+  assign has_left = false
+  if section.settings.left_label_1 != blank or section.settings.left_label_2 != blank
+    assign has_left = true
+  endif
+-%}
+<div
+  class="announcement"
+  style="--announcement-bg: {{ section.settings.color_bg }}; --announcement-text: {{ section.settings.color_text }};"
+  data-announcement
+  data-interval="{{ section.settings.interval | times: 1000 }}"
+>
+  <div class="announcement__inner container container--wide">
+    <nav class="announcement__side" aria-label="{{ 'header.utility_nav' | t }}">
+      {%- if has_left -%}
+        {%- if section.settings.left_label_1 != blank -%}
+          <a href="{{ section.settings.left_link_1 | default: '#' }}" class="announcement__utility">{{ section.settings.left_label_1 | escape }}</a>
+        {%- endif -%}
+        {%- if section.settings.left_label_2 != blank -%}
+          <a href="{{ section.settings.left_link_2 | default: '#' }}" class="announcement__utility">{{ section.settings.left_label_2 | escape }}</a>
+        {%- endif -%}
+      {%- endif -%}
+    </nav>
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="announcement__track" role="region" aria-label="{{ 'header.announcement' | t }}">
+        {%- for block in section.blocks -%}
+          <div class="announcement__item{% if forloop.first %} is-active{% endif %}" data-announcement-item {{ block.shopify_attributes }}>
+            {%- if block.settings.link != blank -%}
+              <a href="{{ block.settings.link }}" class="announcement__link">{{ block.settings.text | escape }}</a>
+            {%- else -%}
+              <span>{{ block.settings.text | escape }}</span>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <div></div>
+    {%- endif -%}
+
+    <div class="announcement__side announcement__side--right">
+      {%- if section.settings.right_label != blank -%}
+        {%- liquid
+          assign right_href = section.settings.right_link
+          if right_href == blank and settings.whatsapp_number != blank
+            assign wa_number = settings.whatsapp_number | remove: ' ' | remove: '-' | remove: '(' | remove: ')' | remove: '+'
+            assign right_href = 'https://wa.me/' | append: wa_number
+          endif
+        -%}
+        <a href="{{ right_href | default: routes.root_url }}" class="announcement__utility"{% if right_href contains 'wa.me' %} target="_blank" rel="noopener"{% endif %}>
+          {%- if section.settings.right_icon -%}{%- render 'icon', icon: 'whatsapp' -%}{%- endif -%}
+          <span>{{ section.settings.right_label | escape }}</span>
+        </a>
+      {%- endif -%}
     </div>
   </div>
-{%- endif -%}
+</div>
 
 {% schema %}
 {
-  "name": "Barra de anúncios",
+  "name": "Barra superior",
   "class": "section-announcement",
   "max_blocks": 6,
   "settings": [
-    { "type": "color", "id": "color_bg", "label": "Cor de fundo", "default": "#141414" },
-    { "type": "color", "id": "color_text", "label": "Cor do texto", "default": "#E3D5BE" },
+    { "type": "header", "content": "Links à esquerda" },
+    { "type": "text", "id": "left_label_1", "label": "Texto do link 1", "default": "Atendimento" },
+    { "type": "url", "id": "left_link_1", "label": "Link 1" },
+    { "type": "text", "id": "left_label_2", "label": "Texto do link 2", "default": "Trocas e devoluções" },
+    { "type": "url", "id": "left_link_2", "label": "Link 2" },
+    { "type": "header", "content": "Link à direita" },
+    { "type": "text", "id": "right_label", "label": "Texto", "default": "Compre pelo WhatsApp" },
+    { "type": "url", "id": "right_link", "label": "Link", "info": "Se vazio, usa o WhatsApp das configurações do tema." },
+    { "type": "checkbox", "id": "right_icon", "label": "Mostrar ícone do WhatsApp", "default": true },
+    { "type": "header", "content": "Aparência" },
+    { "type": "color", "id": "color_bg", "label": "Cor de fundo", "default": "#FFFFFF" },
+    { "type": "color", "id": "color_text", "label": "Cor do texto", "default": "#1A1714" },
     {
       "type": "range",
       "id": "interval",
@@ -52,7 +97,7 @@
   ],
   "presets": [
     {
-      "name": "Barra de anúncios",
+      "name": "Barra superior",
       "blocks": [
         { "type": "announcement" }
       ]

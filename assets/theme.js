@@ -166,9 +166,13 @@
     this.el = el;
     this.slides = qsa('[data-slide]', el);
     this.dots = qsa('[data-slide-to]', el);
+    this.track = qs('[data-slides]', el);
+    this.toggle = qs('[data-slide-toggle]', el);
     this.index = 0;
     this.speed = parseInt(el.dataset.speed, 10) || 6000;
+    this.reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     this.autoplay = el.dataset.autoplay === 'true' && this.slides.length > 1;
+    this.holds = { hover: false, focus: false, hidden: false, user: this.reduced };
     el.style.setProperty('--slide-duration', this.speed + 'ms');
     if (this.slides.length < 2) return;
 
@@ -191,28 +195,57 @@
       startX = null;
     });
 
-    // Pausa ao passar o mouse
-    el.addEventListener('mouseenter', function () { self.pause(); });
-    el.addEventListener('mouseleave', function () { self.play(); });
+    if (!this.autoplay) return;
 
-    if (this.autoplay) {
-      el.classList.add('is-autoplay');
-      this.play();
+    // Pausas independentes: mouse, foco, aba oculta e pausa explícita
+    el.addEventListener('mouseenter', function () { self.hold('hover', true); });
+    el.addEventListener('mouseleave', function () { self.hold('hover', false); });
+    el.addEventListener('focusin', function () { self.hold('focus', true); });
+    el.addEventListener('focusout', function (e) { if (!el.contains(e.relatedTarget)) self.hold('focus', false); });
+    this._onVisibility = function () { self.hold('hidden', document.hidden); };
+    document.addEventListener('visibilitychange', this._onVisibility);
+    if (this.toggle) {
+      this.toggle.addEventListener('click', function () { self.hold('user', !self.holds.user); });
     }
+
+    el.classList.add('is-autoplay');
+    this.sync();
   }
+  Slideshow.prototype.isHeld = function () {
+    var h = this.holds;
+    return h.hover || h.focus || h.hidden || h.user;
+  };
+  Slideshow.prototype.hold = function (key, value) {
+    this.holds[key] = value;
+    this.sync();
+  };
+  Slideshow.prototype.sync = function () {
+    var stopped = this.holds.user;
+    this.el.classList.toggle('is-stopped', stopped);
+    if (this.toggle) {
+      this.toggle.setAttribute('aria-label', stopped ? this.el.dataset.labelPlay : this.el.dataset.labelPause);
+    }
+    if (this.track) this.track.setAttribute('aria-live', this.isHeld() ? 'polite' : 'off');
+    if (this.isHeld()) this.pause();
+    else this.play();
+  };
   Slideshow.prototype.goTo = function (i, user) {
     var total = this.slides.length;
     var nextIndex = (i + total) % total;
     if (nextIndex === this.index) return;
-    this.slides[this.index].classList.remove('is-active');
-    this.slides[this.index].setAttribute('aria-hidden', 'true');
+    var current = this.slides[this.index];
+    current.classList.remove('is-active');
+    current.setAttribute('aria-hidden', 'true');
+    current.setAttribute('inert', '');
     if (this.dots[this.index]) {
       this.dots[this.index].classList.remove('is-active');
       this.dots[this.index].removeAttribute('aria-current');
     }
     this.index = nextIndex;
-    this.slides[this.index].classList.add('is-active');
-    this.slides[this.index].setAttribute('aria-hidden', 'false');
+    var incoming = this.slides[this.index];
+    incoming.classList.add('is-active');
+    incoming.removeAttribute('aria-hidden');
+    incoming.removeAttribute('inert');
     if (this.dots[this.index]) {
       this.dots[this.index].classList.add('is-active');
       this.dots[this.index].setAttribute('aria-current', 'true');
@@ -220,7 +253,7 @@
     if (user) this.restart();
   };
   Slideshow.prototype.play = function () {
-    if (!this.autoplay) return;
+    if (!this.autoplay || this.isHeld()) return;
     var self = this;
     this.el.classList.remove('is-paused');
     clearTimeout(this.timer);
@@ -234,16 +267,26 @@
   Slideshow.prototype.pause = function () {
     if (!this.autoplay) return;
     clearTimeout(this.timer);
+    if (!this.el.classList.contains('is-paused')) {
+      var elapsed = Date.now() - (this.startedAt || Date.now());
+      this.remaining = Math.max(this.speed - (elapsed % this.speed), 500);
+    }
     this.el.classList.add('is-paused');
-    var elapsed = Date.now() - (this.startedAt || Date.now());
-    this.remaining = Math.max(this.speed - (elapsed % this.speed), 500);
   };
   Slideshow.prototype.restart = function () {
     if (!this.autoplay) return;
     this.remaining = null;
+    this.el.classList.remove('is-paused');
+    if (this.isHeld()) {
+      this.el.classList.add('is-paused');
+      return;
+    }
     this.play();
   };
-  Slideshow.prototype.destroy = function () { clearTimeout(this.timer); };
+  Slideshow.prototype.destroy = function () {
+    clearTimeout(this.timer);
+    if (this._onVisibility) document.removeEventListener('visibilitychange', this._onVisibility);
+  };
 
   function initSlideshows(root) {
     qsa('[data-slideshow]', root).forEach(function (el) {

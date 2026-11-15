@@ -4,34 +4,41 @@
 -%}
 
 <section
-  class="hero hero--{{ section.settings.height }}{% if section.settings.full_bleed_header %} hero--under-header{% endif %}"
+  class="hero hero--{{ section.settings.height }}"
   style="--hero-overlay: {{ overlay }};"
   data-slideshow
   data-autoplay="{{ section.settings.autoplay }}"
   data-speed="{{ section.settings.speed | times: 1000 }}"
+  data-label-pause="{{ 'accessibility.pause_slideshow' | t | escape }}"
+  data-label-play="{{ 'accessibility.play_slideshow' | t | escape }}"
   aria-roledescription="carousel"
   aria-label="{{ section.settings.aria_label | escape }}"
 >
-  <div class="hero__track">
+  <div class="hero__track" data-slides aria-live="off">
     {%- for block in section.blocks -%}
       {%- liquid
         assign loading = 'lazy'
         if forloop.first and section.index == 1
           assign loading = 'eager'
         endif
-        assign heading_tag = 'h2'
+        assign img_class = 'hero__img'
+        if block.settings.image_fit == 'contain'
+          assign img_class = 'hero__img hero__img--contain'
+        endif
       -%}
       <div
-        class="hero__slide hero__slide--{{ block.settings.text_color }}{% if forloop.first %} is-active{% endif %}"
+        class="hero__slide hero__slide--{{ block.settings.text_color }}{% if block.settings.position contains 'left' %} hero__slide--align-left{% endif %}{% if forloop.first %} is-active{% endif %}"
+        style="--slide-bg: {{ block.settings.background }};"
         data-slide
         role="group"
         aria-roledescription="slide"
         aria-label="{{ 'accessibility.slide_of' | t: index: forloop.index, total: slide_count }}"
-        {% unless forloop.first %}aria-hidden="true"{% endunless %}
+        {% unless forloop.first %}aria-hidden="true" inert{% endunless %}
         {{ block.shopify_attributes }}
       >
         <div class="hero__media">
           {%- if block.settings.image -%}
+            {%- assign img_alt = block.settings.image.alt | default: '' -%}
             <picture>
               {%- if block.settings.image_mobile -%}
                 <source
@@ -47,7 +54,9 @@
                   widths: '750, 1100, 1500, 1920, 2400, 3200',
                   sizes: '100vw',
                   loading: loading,
-                  class: 'hero__img',
+                  fetchpriority: 'auto',
+                  alt: img_alt,
+                  class: img_class,
                   style: block.settings.focal_style
               }}
             </picture>
@@ -65,12 +74,12 @@
         </div>
 
         <div class="hero__content container container--wide hero__content--{{ block.settings.position }}">
-          <div class="hero__text" data-reveal>
+          <div class="hero__text">
             {%- if block.settings.eyebrow != blank -%}
               <p class="eyebrow hero__eyebrow">{{ block.settings.eyebrow | escape }}</p>
             {%- endif -%}
             {%- if block.settings.heading != blank -%}
-              <{{ heading_tag }} class="display hero__heading">{{ block.settings.heading }}</{{ heading_tag }}>
+              <h2 class="hero__heading">{{ block.settings.heading }}</h2>
             {%- endif -%}
             {%- if block.settings.text != blank -%}
               <p class="hero__subtext">{{ block.settings.text | escape }}</p>
@@ -96,26 +105,29 @@
   </div>
 
   {%- if slide_count > 1 -%}
-    <div class="hero__controls container container--wide">
-      <div class="hero__dots">
-        {%- for block in section.blocks -%}
-          <button
-            type="button"
-            class="hero__dot{% if forloop.first %} is-active{% endif %}"
-            data-slide-to="{{ forloop.index0 }}"
-            aria-label="{{ 'accessibility.go_to_slide' | t: index: forloop.index }}"
-            {% if forloop.first %}aria-current="true"{% endif %}
-          >
-            <span class="hero__dot-index">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
-            <span class="hero__dot-bar"><span class="hero__dot-progress"></span></span>
-          </button>
-        {%- endfor -%}
-      </div>
-      <div class="hero__arrows">
-        <button type="button" class="icon-btn" data-slide-prev aria-label="{{ 'accessibility.previous' | t }}">{%- render 'icon', icon: 'chevron-left' -%}</button>
-        <button type="button" class="icon-btn" data-slide-next aria-label="{{ 'accessibility.next' | t }}">{%- render 'icon', icon: 'chevron-right' -%}</button>
-      </div>
+    <button type="button" class="icon-btn hero__arrow hero__arrow--prev" data-slide-prev aria-label="{{ 'accessibility.previous' | t }}">{%- render 'icon', icon: 'chevron-left' -%}</button>
+    <button type="button" class="icon-btn hero__arrow hero__arrow--next" data-slide-next aria-label="{{ 'accessibility.next' | t }}">{%- render 'icon', icon: 'chevron-right' -%}</button>
+
+    <div class="hero__dots">
+      {%- for block in section.blocks -%}
+        <button
+          type="button"
+          class="hero__dot{% if forloop.first %} is-active{% endif %}"
+          data-slide-to="{{ forloop.index0 }}"
+          aria-label="{{ 'accessibility.go_to_slide' | t: index: forloop.index }}"
+          {% if forloop.first %}aria-current="true"{% endif %}
+        >
+          <span class="hero__dot-bar"><span class="hero__dot-progress"></span></span>
+        </button>
+      {%- endfor -%}
     </div>
+
+    {%- if section.settings.autoplay -%}
+      <button type="button" class="icon-btn hero__toggle" data-slide-toggle aria-label="{{ 'accessibility.pause_slideshow' | t }}">
+        <span data-icon-pause>{%- render 'icon', icon: 'pause' -%}</span>
+        <span data-icon-play>{%- render 'icon', icon: 'play' -%}</span>
+      </button>
+    {%- endif -%}
   {%- endif -%}
 </section>
 
@@ -131,28 +143,22 @@
       "id": "height",
       "label": "Altura",
       "options": [
+        { "value": "banner", "label": "Faixa larga (16:7)" },
         { "value": "full", "label": "Tela cheia" },
         { "value": "large", "label": "Grande" },
         { "value": "medium", "label": "Média" }
       ],
-      "default": "full"
-    },
-    {
-      "type": "checkbox",
-      "id": "full_bleed_header",
-      "label": "Passar por baixo do cabeçalho transparente",
-      "info": "Use com \"Transparente sobre o banner\" ativado no cabeçalho.",
-      "default": true
+      "default": "banner"
     },
     {
       "type": "range",
       "id": "overlay",
-      "label": "Escurecimento da imagem",
+      "label": "Sombra atrás do texto",
       "min": 0,
-      "max": 70,
+      "max": 80,
       "step": 5,
       "unit": "%",
-      "default": 20
+      "default": 45
     },
     { "type": "checkbox", "id": "autoplay", "label": "Troca automática", "default": true },
     {
@@ -172,27 +178,39 @@
       "type": "slide",
       "name": "Slide",
       "settings": [
-        { "type": "image_picker", "id": "image", "label": "Imagem (desktop)", "info": "Recomendado: 2880 x 1600 px." },
-        { "type": "image_picker", "id": "image_mobile", "label": "Imagem (celular)", "info": "Recomendado: 1080 x 1620 px (retrato)." },
+        { "type": "image_picker", "id": "image", "label": "Imagem (desktop)", "info": "Recomendado: 2880 x 1260 px." },
+        { "type": "image_picker", "id": "image_mobile", "label": "Imagem (celular)", "info": "Recomendado: 1080 x 1350 px (retrato)." },
+        {
+          "type": "select",
+          "id": "image_fit",
+          "label": "Enquadramento",
+          "options": [
+            { "value": "cover", "label": "Preencher a faixa" },
+            { "value": "contain", "label": "Imagem inteira sobre a cor de fundo" }
+          ],
+          "default": "cover"
+        },
+        { "type": "color", "id": "background", "label": "Cor de fundo", "info": "Aparece nas laterais quando a imagem é mostrada inteira.", "default": "#000000" },
         {
           "type": "select",
           "id": "focal_style",
           "label": "Foco da imagem",
           "options": [
             { "value": "object-position: center center;", "label": "Centro" },
+            { "value": "object-position: center 25%;", "label": "Terço superior" },
             { "value": "object-position: center top;", "label": "Topo" },
             { "value": "object-position: center bottom;", "label": "Base" },
-            { "value": "object-position: left center;", "label": "Esquerda" },
-            { "value": "object-position: right center;", "label": "Direita" }
+            { "value": "object-position: 20% center;", "label": "Esquerda" },
+            { "value": "object-position: 80% center;", "label": "Direita" }
           ],
           "default": "object-position: center center;"
         },
-        { "type": "text", "id": "eyebrow", "label": "Sobretítulo", "default": "Coleção Outono Inverno" },
-        { "type": "inline_richtext", "id": "heading", "label": "Título", "info": "Use itálico para destacar uma palavra.", "default": "A elegância está no <em>silêncio</em>" },
-        { "type": "text", "id": "text", "label": "Texto", "default": "Alfaiataria fluida, tons neutros e tecidos que tocam a pele com suavidade." },
+        { "type": "text", "id": "eyebrow", "label": "Sobretítulo" },
+        { "type": "inline_richtext", "id": "heading", "label": "Título", "info": "Use itálico para destacar uma palavra.", "default": "Vista sua <em>melhor versão</em>" },
+        { "type": "text", "id": "text", "label": "Texto" },
         { "type": "text", "id": "button_label", "label": "Botão principal", "default": "Descobrir coleção" },
         { "type": "url", "id": "button_link", "label": "Link do botão principal" },
-        { "type": "text", "id": "button_label_2", "label": "Link secundário", "default": "Ver lookbook" },
+        { "type": "text", "id": "button_label_2", "label": "Link secundário" },
         { "type": "url", "id": "button_link_2", "label": "URL do link secundário" },
         {
           "type": "select",

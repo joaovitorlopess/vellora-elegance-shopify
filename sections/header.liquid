@@ -1,111 +1,116 @@
 {%- liquid
-  assign transparent = false
-  if section.settings.transparent_home and template.name == 'index'
-    assign transparent = true
-  endif
   assign menu = section.settings.menu
 -%}
 
 <header
-  class="site-header{% if transparent %} site-header--transparent{% endif %}{% if section.settings.sticky %} site-header--sticky{% endif %}"
+  class="site-header{% if section.settings.sticky %} site-header--sticky{% endif %}"
   data-header
-  data-transparent="{{ transparent }}"
+  data-transparent="false"
 >
   <div class="site-header__inner container container--wide">
-    {%- comment -%} Esquerda: menu {%- endcomment -%}
-    <div class="site-header__left">
-      <button
-        class="icon-btn site-header__burger"
-        type="button"
-        data-drawer-open="MenuDrawer"
-        aria-controls="MenuDrawer"
-        aria-expanded="false"
-        aria-label="{{ 'header.open_menu' | t }}"
-      >
-        {%- render 'icon', icon: 'menu' -%}
-      </button>
+    <button
+      class="icon-btn site-header__burger"
+      type="button"
+      data-drawer-open="MenuDrawer"
+      aria-controls="MenuDrawer"
+      aria-expanded="false"
+      aria-label="{{ 'header.open_menu' | t }}"
+    >
+      {%- render 'icon', icon: 'menu' -%}
+    </button>
 
-      <nav class="site-nav" aria-label="{{ 'header.main_nav' | t }}">
-        <ul class="site-nav__list" role="list">
-          {%- for link in menu.links -%}
-            <li class="site-nav__item{% if link.links != blank %} has-mega{% endif %}" data-nav-item>
-              <a
-                href="{{ link.url }}"
-                class="site-nav__link{% if link.active or link.child_active %} is-active{% endif %}"
-                {% if link.links != blank %}aria-haspopup="true" aria-expanded="false"{% endif %}
-              >
-                {{- link.title | escape -}}
-              </a>
-
-              {%- if link.links != blank -%}
-                <div class="mega" data-mega>
-                  <div class="mega__inner container container--wide">
-                    <div class="mega__columns">
-                      {%- for child in link.links -%}
-                        <div class="mega__col">
-                          <a href="{{ child.url }}" class="mega__heading">{{ child.title | escape }}</a>
-                          {%- if child.links != blank -%}
-                            <ul class="mega__list" role="list">
-                              {%- for grandchild in child.links -%}
-                                <li><a href="{{ grandchild.url }}" class="mega__link">{{ grandchild.title | escape }}</a></li>
-                              {%- endfor -%}
-                            </ul>
-                          {%- endif -%}
-                        </div>
-                      {%- endfor -%}
-                    </div>
-
-                    {%- assign link_title = link.title | strip | downcase -%}
-                    {%- for block in section.blocks -%}
-                      {%- assign promo_title = block.settings.menu_item | strip | downcase -%}
-                      {%- if promo_title == link_title -%}
-                        <a href="{{ block.settings.link | default: link.url }}" class="mega__promo" {{ block.shopify_attributes }}>
-                          <div class="mega__promo-media">
-                            {%- if block.settings.image -%}
-                              {{ block.settings.image | image_url: width: 800 | image_tag: widths: '400, 600, 800', sizes: '320px', loading: 'lazy', class: 'mega__promo-img' }}
-                            {%- elsif settings.demo_images -%}
-                              {%- render 'demo-image', name: 'vellora-promo', class: 'mega__promo-img', width: 800, height: 1000, sizes: '300px' -%}
-                            {%- else -%}
-                              {{ 'lifestyle-1' | placeholder_svg_tag: 'mega__promo-img placeholder-svg' }}
-                            {%- endif -%}
-                          </div>
-                          {%- if block.settings.heading != blank -%}
-                            <p class="mega__promo-title">{{ block.settings.heading | escape }}</p>
-                          {%- endif -%}
-                          {%- if block.settings.label != blank -%}
-                            <span class="link-underline">{{ block.settings.label | escape }}</span>
-                          {%- endif -%}
-                        </a>
-                      {%- endif -%}
-                    {%- endfor -%}
-                  </div>
-                </div>
-              {%- endif -%}
-            </li>
-          {%- endfor -%}
-        </ul>
-      </nav>
-    </div>
-
-    {%- comment -%} Centro: logo {%- endcomment -%}
     {%- if template.name == 'index' -%}<h1 class="site-header__logo-wrap">{%- else -%}<div class="site-header__logo-wrap">{%- endif -%}
       <a href="{{ routes.root_url }}" class="site-header__logo" style="--logo-width: {{ section.settings.logo_width }}px;">
         {%- if section.settings.logo -%}
           {%- assign logo_alt = section.settings.logo.alt | default: shop.name -%}
-          {{ section.settings.logo | image_url: width: 600 | image_tag: class: 'site-header__logo-img site-header__logo-img--default', alt: logo_alt, widths: '200, 300, 400, 600', sizes: '260px' }}
-          {%- if section.settings.logo_inverse -%}
-            {{ section.settings.logo_inverse | image_url: width: 600 | image_tag: class: 'site-header__logo-img site-header__logo-img--inverse', alt: logo_alt, widths: '200, 300, 400, 600', sizes: '260px' }}
-          {%- endif -%}
+          {{ section.settings.logo | image_url: width: 600 | image_tag: class: 'site-header__logo-img', alt: logo_alt, widths: '200, 300, 400, 600', sizes: '260px' }}
         {%- else -%}
           <span class="site-header__wordmark">{{ shop.name | escape }}</span>
         {%- endif -%}
       </a>
     {%- if template.name == 'index' -%}</h1>{%- else -%}</div>{%- endif -%}
 
-    {%- comment -%} Direita: ícones {%- endcomment -%}
-    <div class="site-header__icons">
+    <nav class="site-nav" aria-label="{{ 'header.main_nav' | t }}">
+      <ul class="site-nav__list" role="list">
+        {%- for link in menu.links -%}
+          <li class="site-nav__item{% if link.links != blank %} has-mega{% endif %}" data-nav-item>
+            <a
+              href="{{ link.url }}"
+              class="site-nav__link{% if link.active or link.child_active %} is-active{% endif %}"
+              {% if link.links != blank %}aria-haspopup="true" aria-expanded="false"{% endif %}
+            >
+              {{- link.title | escape -}}
+            </a>
+
+            {%- if link.links != blank -%}
+              <div class="mega" data-mega>
+                <div class="mega__inner container container--wide">
+                  <div class="mega__columns">
+                    {%- for child in link.links -%}
+                      <div class="mega__col">
+                        <a href="{{ child.url }}" class="mega__heading">{{ child.title | escape }}</a>
+                        {%- if child.links != blank -%}
+                          <ul class="mega__list" role="list">
+                            {%- for grandchild in child.links -%}
+                              <li><a href="{{ grandchild.url }}" class="mega__link">{{ grandchild.title | escape }}</a></li>
+                            {%- endfor -%}
+                          </ul>
+                        {%- endif -%}
+                      </div>
+                    {%- endfor -%}
+                  </div>
+
+                  {%- assign link_title = link.title | strip | downcase -%}
+                  {%- for block in section.blocks -%}
+                    {%- assign promo_title = block.settings.menu_item | strip | downcase -%}
+                    {%- if promo_title == link_title -%}
+                      <a href="{{ block.settings.link | default: link.url }}" class="mega__promo" {{ block.shopify_attributes }}>
+                        <div class="mega__promo-media">
+                          {%- if block.settings.image -%}
+                            {{ block.settings.image | image_url: width: 800 | image_tag: widths: '400, 600, 800', sizes: '320px', loading: 'lazy', class: 'mega__promo-img' }}
+                          {%- elsif settings.demo_images -%}
+                            {%- render 'demo-image', name: 'vellora-promo', class: 'mega__promo-img', width: 800, height: 1000, sizes: '300px' -%}
+                          {%- else -%}
+                            {{ 'lifestyle-1' | placeholder_svg_tag: 'mega__promo-img placeholder-svg' }}
+                          {%- endif -%}
+                        </div>
+                        {%- if block.settings.heading != blank -%}
+                          <p class="mega__promo-title">{{ block.settings.heading | escape }}</p>
+                        {%- endif -%}
+                        {%- if block.settings.label != blank -%}
+                          <span class="link-underline">{{ block.settings.label | escape }}</span>
+                        {%- endif -%}
+                      </a>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </div>
+              </div>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    </nav>
+
+    <div class="site-header__actions">
       {%- if section.settings.show_search -%}
-        <button class="icon-btn" type="button" data-search-open aria-label="{{ 'header.search' | t }}">
+        <form action="{{ routes.search_url }}" method="get" role="search" class="header-search">
+          <div class="header-search__field">
+            <button type="submit" class="header-search__submit" aria-label="{{ 'search.submit' | t }}">
+              {%- render 'icon', icon: 'search' -%}
+            </button>
+            <label for="HeaderInlineSearch" class="visually-hidden">{{ 'search.placeholder' | t }}</label>
+            <input
+              id="HeaderInlineSearch"
+              type="search"
+              name="q"
+              class="header-search__input"
+              placeholder="{{ 'search.placeholder' | t }}"
+              autocomplete="off"
+            >
+            <input type="hidden" name="options[prefix]" value="last">
+          </div>
+        </form>
+        <button class="icon-btn site-header__search-toggle" type="button" data-search-open aria-label="{{ 'header.search' | t }}">
           {%- render 'icon', icon: 'search' -%}
         </button>
       {%- endif -%}
@@ -224,12 +229,6 @@
     { "type": "header", "content": "Logo" },
     { "type": "image_picker", "id": "logo", "label": "Logo" },
     {
-      "type": "image_picker",
-      "id": "logo_inverse",
-      "label": "Logo claro (sobre o banner)",
-      "info": "Usado quando o cabeçalho está transparente sobre imagens escuras."
-    },
-    {
       "type": "range",
       "id": "logo_width",
       "label": "Largura do logo",
@@ -237,7 +236,7 @@
       "max": 260,
       "step": 10,
       "unit": "px",
-      "default": 170
+      "default": 220
     },
     { "type": "header", "content": "Navegação" },
     { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" },
@@ -245,13 +244,7 @@
     { "type": "text", "id": "search_suggestions", "label": "Buscas populares", "info": "Separadas por vírgula.", "default": "Vestidos, Alfaiataria, Seda, Tricô" },
     { "type": "checkbox", "id": "show_account", "label": "Mostrar ícone de conta", "default": true },
     { "type": "header", "content": "Comportamento" },
-    { "type": "checkbox", "id": "sticky", "label": "Fixar no topo ao rolar", "default": true },
-    {
-      "type": "checkbox",
-      "id": "transparent_home",
-      "label": "Transparente sobre o banner da página inicial",
-      "default": true
-    }
+    { "type": "checkbox", "id": "sticky", "label": "Fixar no topo ao rolar", "default": true }
   ],
   "blocks": [
     {

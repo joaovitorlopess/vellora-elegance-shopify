@@ -1,0 +1,39 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "current": {
+    "color_background": "#FFFFFF",
+    "color_background_alt": "#F2F0ED",
+    "color_text": "#1A1714",
+    "color_accent": "#876A3F",
+    "color_champagne": "#E7DCC8",
+    "color_button": "#1A1714",
+    "color_button_text": "#FFFFFF",
+    "color_sale": "#8E2B2B",
+    "type_heading_font": "cormorant_n4",
+    "type_body_font": "jost_n4",
+    "heading_scale": 100,
+    "body_scale": 100,
+    "heading_letter_spacing": 0,
+    "page_width": 1440,
+    "section_spacing": 96,
+    "border_radius": 0,
+    "card_image_ratio": "3 / 4",
+    "card_hover_image": true,
+    "card_quick_add": true,
+    "card_new_tag": "novo",
+    "installments": 6,
+    "installments_min_value": 50,
+    "pix_discount": 5,
+    "whatsapp_message": "Olá! Vim pelo site da Vellora Elegance.",
+    "demo_images": true,
+    "demo_source": "photos"
+  }
+}

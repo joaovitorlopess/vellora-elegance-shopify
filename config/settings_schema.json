@@ -1,1 +1,99 @@
-[]
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Vellora Elegance",
+    "theme_version": "2.0.0",
+    "theme_author": "Vellora Elegance",
+    "theme_documentation_url": "https://www.velloraelegance.com.br",
+    "theme_support_url": "https://www.velloraelegance.com.br"
+  },
+  {
+    "name": "Cores",
+    "settings": [
+      { "type": "color", "id": "color_background", "label": "Fundo", "default": "#FFFFFF" },
+      { "type": "color", "id": "color_background_alt", "label": "Fundo secundário", "info": "Usado em faixas e no fundo dos cards.", "default": "#F2F0ED" },
+      { "type": "color", "id": "color_text", "label": "Texto", "default": "#1A1714" },
+      { "type": "color", "id": "color_accent", "label": "Destaque (dourado)", "default": "#876A3F" },
+      { "type": "color", "id": "color_champagne", "label": "Champagne", "default": "#E7DCC8" },
+      { "type": "color", "id": "color_button", "label": "Fundo do botão", "default": "#1A1714" },
+      { "type": "color", "id": "color_button_text", "label": "Texto do botão", "default": "#FFFFFF" },
+      { "type": "color", "id": "color_sale", "label": "Preço promocional", "default": "#8E2B2B" }
+    ]
+  },
+  {
+    "name": "Tipografia",
+    "settings": [
+      { "type": "font_picker", "id": "type_heading_font", "label": "Fonte dos títulos", "default": "cormorant_n4" },
+      { "type": "font_picker", "id": "type_body_font", "label": "Fonte do texto", "default": "jost_n4" },
+      { "type": "range", "id": "heading_scale", "label": "Tamanho dos títulos", "min": 80, "max": 130, "step": 5, "unit": "%", "default": 100 },
+      { "type": "range", "id": "body_scale", "label": "Tamanho do texto", "min": 90, "max": 120, "step": 5, "unit": "%", "default": 100 },
+      { "type": "range", "id": "heading_letter_spacing", "label": "Espaçamento entre letras dos títulos", "min": -5, "max": 20, "step": 1, "default": 0 }
+    ]
+  },
+  {
+    "name": "Layout",
+    "settings": [
+      { "type": "range", "id": "page_width", "label": "Largura máxima da página", "min": 1000, "max": 1600, "step": 20, "unit": "px", "default": 1440 },
+      { "type": "range", "id": "section_spacing", "label": "Espaço entre seções", "min": 40, "max": 160, "step": 8, "unit": "px", "default": 96 },
+      { "type": "range", "id": "border_radius", "label": "Arredondamento dos cantos", "min": 0, "max": 12, "step": 1, "unit": "px", "default": 0 }
+    ]
+  },
+  {
+    "name": "Cards de produto",
+    "settings": [
+      {
+        "type": "select",
+        "id": "card_image_ratio",
+        "label": "Proporção da imagem",
+        "options": [
+          { "value": "3 / 4", "label": "Retrato (3:4)" },
+          { "value": "2 / 3", "label": "Retrato alto (2:3)" },
+          { "value": "4 / 5", "label": "Retrato curto (4:5)" },
+          { "value": "1 / 1", "label": "Quadrado" }
+        ],
+        "default": "3 / 4"
+      },
+      { "type": "checkbox", "id": "card_hover_image", "label": "Mostrar segunda foto ao passar o mouse", "default": true },
+      { "type": "checkbox", "id": "card_quick_add", "label": "Mostrar compra rápida", "default": true },
+      { "type": "text", "id": "card_new_tag", "label": "Tag de novidade", "info": "Produtos com esta tag recebem o selo \"Novo\".", "default": "novo" }
+    ]
+  },
+  {
+    "name": "Pagamento",
+    "settings": [
+      { "type": "range", "id": "installments", "label": "Parcelas sem juros", "min": 1, "max": 12, "step": 1, "unit": "x", "default": 6 },
+      { "type": "number", "id": "installments_min_value", "label": "Valor mínimo da parcela (R$)", "default": 50 },
+      { "type": "range", "id": "pix_discount", "label": "Desconto no Pix", "min": 0, "max": 20, "step": 1, "unit": "%", "default": 5 }
+    ]
+  },
+  {
+    "name": "WhatsApp",
+    "settings": [
+      { "type": "text", "id": "whatsapp_number", "label": "Número com DDI e DDD", "info": "Ex.: 55 11 99999-9999. Deixe vazio para ocultar o botão." },
+      { "type": "text", "id": "whatsapp_message", "label": "Mensagem inicial", "default": "Olá! Vim pelo site da Vellora Elegance." }
+    ]
+  },
+  {
+    "name": "Imagens de demonstração",
+    "settings": [
+      { "type": "paragraph", "content": "Aparecem apenas em seções que ainda não têm foto própria. Desative antes de publicar." },
+      { "type": "checkbox", "id": "demo_images", "label": "Mostrar imagens de demonstração", "default": true },
+      {
+        "type": "select",
+        "id": "demo_source",
+        "label": "Tipo de imagem",
+        "options": [
+          { "value": "photos", "label": "Fotos de moda" },
+          { "value": "fabric", "label": "Texturas de tecido" }
+        ],
+        "default": "photos"
+      }
+    ]
+  },
+  {
+    "name": "Favicon",
+    "settings": [
+      { "type": "image_picker", "id": "favicon", "label": "Ícone da aba", "info": "32 x 32 px, PNG." }
+    ]
+  }
+]

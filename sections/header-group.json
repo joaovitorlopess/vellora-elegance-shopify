@@ -33,25 +33,37 @@
           }
         }
       },
-      "block_order": ["announcement-1", "announcement-2", "announcement-3"],
+      "block_order": [
+        "announcement-1",
+        "announcement-2",
+        "announcement-3"
+      ],
       "settings": {
-        "color_bg": "#141414",
-        "color_text": "#E3D5BE",
+        "left_label_1": "Atendimento",
+        "left_link_1": "/pages/contact",
+        "left_label_2": "Trocas e devoluções",
+        "left_link_2": "/pages/contact",
+        "right_label": "Compre pelo WhatsApp",
+        "right_icon": true,
+        "color_bg": "#FFFFFF",
+        "color_text": "#1A1714",
         "interval": 5
       }
     },
     "header": {
       "type": "header",
       "settings": {
-        "logo_width": 170,
-        "menu": "main-menu",
+        "logo_width": 220,
+        "menu": "menu-vellora",
         "show_search": true,
         "search_suggestions": "Vestidos, Alfaiataria, Seda, Tricô",
         "show_account": true,
-        "sticky": true,
-        "transparent_home": true
+        "sticky": true
       }
     }
   },
-  "order": ["announcement-bar", "header"]
+  "order": [
+    "announcement-bar",
+    "header"
+  ]
 }

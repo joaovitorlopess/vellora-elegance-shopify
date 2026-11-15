@@ -23,7 +23,9 @@
     "previous": "Anterior",
     "next": "Próximo",
     "slide_of": "Slide {{ index }} de {{ total }}",
-    "go_to_slide": "Ir para o slide {{ index }}"
+    "go_to_slide": "Ir para o slide {{ index }}",
+    "pause_slideshow": "Pausar apresentação",
+    "play_slideshow": "Reproduzir apresentação"
   },
   "header": {
     "announcement": "Anúncios",
@@ -34,7 +36,8 @@
     "account": "Minha conta",
     "my_account": "Minha conta",
     "login": "Entrar ou criar conta",
-    "cart": "Sacola"
+    "cart": "Sacola",
+    "utility_nav": "Links rápidos"
   },
   "search": {
     "title": "Busca",

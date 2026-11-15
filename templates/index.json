@@ -15,12 +15,16 @@
         "slide-1": {
           "type": "slide",
           "settings": {
-            "focal_style": "object-position: center center;",
-            "eyebrow": "Coleção Outono Inverno 2026",
-            "heading": "A elegância está no <em>silêncio</em>",
-            "text": "Alfaiataria fluida, tons neutros e tecidos que tocam a pele com suavidade.",
+            "image": "shopify://shop_images/ChatGPT_Image_23_de_set._de_2026_23_42_18.png",
+            "image_fit": "cover",
+            "background": "#000000",
+            "focal_style": "object-position: center top;",
+            "eyebrow": "",
+            "heading": "Vista sua <em>melhor versão</em>",
+            "text": "Cetim, fluidez e o brilho certo para cada ocasião.",
             "button_label": "Descobrir coleção",
-            "button_label_2": "Ver lookbook",
+            "button_link": "/collections/all",
+            "button_label_2": "",
             "position": "bottom-left",
             "text_color": "light"
           }
@@ -28,22 +32,28 @@
         "slide-2": {
           "type": "slide",
           "settings": {
-            "focal_style": "object-position: center top;",
-            "eyebrow": "Edição limitada",
-            "heading": "Seda pura, <em>forma</em> essencial",
-            "text": "Peças produzidas em pequenos lotes, com acabamento artesanal.",
+            "image": "shopify://shop_images/vestido-sofisticado.png",
+            "image_fit": "contain",
+            "background": "#000000",
+            "focal_style": "object-position: 72% center;",
+            "eyebrow": "Ocasiões especiais",
+            "heading": "Feito para noites <em>inesquecíveis</em>",
+            "text": "",
             "button_label": "Comprar agora",
+            "button_link": "/collections/all",
             "button_label_2": "",
-            "position": "center",
+            "position": "center-left",
             "text_color": "light"
           }
         }
       },
-      "block_order": ["slide-1", "slide-2"],
+      "block_order": [
+        "slide-1",
+        "slide-2"
+      ],
       "settings": {
-        "height": "full",
-        "full_bleed_header": true,
-        "overlay": 30,
+        "height": "banner",
+        "overlay": 55,
         "autoplay": true,
         "speed": 6,
         "aria_label": "Destaques da coleção"
@@ -52,12 +62,37 @@
     "ticker": {
       "type": "ticker",
       "blocks": {
-        "t1": { "type": "text", "settings": { "text": "Tecidos nobres" } },
-        "t2": { "type": "text", "settings": { "text": "Design atemporal" } },
-        "t3": { "type": "text", "settings": { "text": "Produção responsável" } },
-        "t4": { "type": "text", "settings": { "text": "Feito no Brasil" } }
+        "t1": {
+          "type": "text",
+          "settings": {
+            "text": "Tecidos nobres"
+          }
+        },
+        "t2": {
+          "type": "text",
+          "settings": {
+            "text": "Design atemporal"
+          }
+        },
+        "t3": {
+          "type": "text",
+          "settings": {
+            "text": "Produção responsável"
+          }
+        },
+        "t4": {
+          "type": "text",
+          "settings": {
+            "text": "Feito no Brasil"
+          }
+        }
       },
-      "block_order": ["t1", "t2", "t3", "t4"],
+      "block_order": [
+        "t1",
+        "t2",
+        "t3",
+        "t4"
+      ],
       "settings": {
         "style": "outline",
         "duration": 45,
@@ -67,11 +102,30 @@
     "categories": {
       "type": "collection-list",
       "blocks": {
-        "c1": { "type": "collection", "settings": { "title": "Vestidos" } },
-        "c2": { "type": "collection", "settings": { "title": "Alfaiataria" } },
-        "c3": { "type": "collection", "settings": { "title": "Tricô" } }
+        "c1": {
+          "type": "collection",
+          "settings": {
+            "title": "Vestidos"
+          }
+        },
+        "c2": {
+          "type": "collection",
+          "settings": {
+            "title": "Alfaiataria"
+          }
+        },
+        "c3": {
+          "type": "collection",
+          "settings": {
+            "title": "Tricô"
+          }
+        }
       },
-      "block_order": ["c1", "c2", "c3"],
+      "block_order": [
+        "c1",
+        "c2",
+        "c3"
+      ],
       "settings": {
         "eyebrow": "Explore",
         "heading": "Compre por categoria",
@@ -165,7 +219,11 @@
           }
         }
       },
-      "block_order": ["r1", "r2", "r3"],
+      "block_order": [
+        "r1",
+        "r2",
+        "r3"
+      ],
       "settings": {
         "eyebrow": "Elas vestem Vellora",
         "heading": "O que dizem nossas clientes",
@@ -176,12 +234,45 @@
     "trust": {
       "type": "trust-bar",
       "blocks": {
-        "b1": { "type": "item", "settings": { "icon": "truck", "title": "Frete grátis", "text": "Em compras acima de R$ 499" } },
-        "b2": { "type": "item", "settings": { "icon": "card", "title": "Até 6x sem juros", "text": "Em todos os cartões" } },
-        "b3": { "type": "item", "settings": { "icon": "pix", "title": "5% off no Pix", "text": "Aprovação imediata" } },
-        "b4": { "type": "item", "settings": { "icon": "exchange", "title": "Troca fácil", "text": "Primeira troca grátis em 30 dias" } }
+        "b1": {
+          "type": "item",
+          "settings": {
+            "icon": "truck",
+            "title": "Frete grátis",
+            "text": "Em compras acima de R$ 499"
+          }
+        },
+        "b2": {
+          "type": "item",
+          "settings": {
+            "icon": "card",
+            "title": "Até 6x sem juros",
+            "text": "Em todos os cartões"
+          }
+        },
+        "b3": {
+          "type": "item",
+          "settings": {
+            "icon": "pix",
+            "title": "5% off no Pix",
+            "text": "Aprovação imediata"
+          }
+        },
+        "b4": {
+          "type": "item",
+          "settings": {
+            "icon": "exchange",
+            "title": "Troca fácil",
+            "text": "Primeira troca grátis em 30 dias"
+          }
+        }
       },
-      "block_order": ["b1", "b2", "b3", "b4"],
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4"
+      ],
       "settings": {
         "background": "default"
       }

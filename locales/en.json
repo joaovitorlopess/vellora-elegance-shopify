@@ -23,7 +23,9 @@
     "previous": "Previous",
     "next": "Next",
     "slide_of": "Slide {{ index }} of {{ total }}",
-    "go_to_slide": "Go to slide {{ index }}"
+    "go_to_slide": "Go to slide {{ index }}",
+    "pause_slideshow": "Pause slideshow",
+    "play_slideshow": "Play slideshow"
   },
   "header": {
     "announcement": "Announcements",
@@ -34,7 +36,8 @@
     "account": "Account",
     "my_account": "My account",
     "login": "Log in or sign up",
-    "cart": "Bag"
+    "cart": "Bag",
+    "utility_nav": "Quick links"
   },
   "search": {
     "title": "Search",
