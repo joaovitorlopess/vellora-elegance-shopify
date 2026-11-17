@@ -43,18 +43,25 @@
           }
         }
       },
-      "block_order": ["brand", "menu-shop", "menu-help", "contact"],
+      "block_order": [
+        "brand",
+        "menu-shop",
+        "menu-help",
+        "contact"
+      ],
       "settings": {
         "color_bg": "#141414",
         "color_text": "#EFE8DC",
         "show_newsletter": true,
         "hide_newsletter_home": true,
         "newsletter_heading": "Entre para o Círculo Vellora",
-        "newsletter_text": "<p>Acesso antecipado às coleções, convites exclusivos e 10% off na primeira compra.</p>",
-        "legal_text": "CNPJ 00.000.000/0001-00 — Todos os direitos reservados.",
+        "newsletter_text": "<p>Acesso antecipado às coleções e convites exclusivos.</p>",
+        "legal_text": "Todos os direitos reservados.",
         "show_payment_icons": true
       }
     }
   },
-  "order": ["footer"]
+  "order": [
+    "footer"
+  ]
 }

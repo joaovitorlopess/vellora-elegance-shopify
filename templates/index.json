@@ -231,7 +231,8 @@
         "heading": "O que dizem nossas clientes",
         "show_stars": true,
         "background": "alt"
-      }
+      },
+      "disabled": true
     },
     "trust": {
       "type": "trust-bar",
@@ -241,23 +242,23 @@
           "settings": {
             "icon": "truck",
             "title": "Frete grátis",
-            "text": "Em compras acima de R$ 499"
+            "text": "Para todo o Brasil"
           }
         },
         "b2": {
           "type": "item",
           "settings": {
             "icon": "card",
-            "title": "Até 6x sem juros",
-            "text": "Em todos os cartões"
+            "title": "Até 12x sem juros",
+            "text": "No cartão de crédito"
           }
         },
         "b3": {
           "type": "item",
           "settings": {
-            "icon": "pix",
-            "title": "5% off no Pix",
-            "text": "Aprovação imediata"
+            "icon": "shield",
+            "title": "Compra segura",
+            "text": "Pagamento pelo Mercado Pago"
           }
         },
         "b4": {
@@ -265,7 +266,7 @@
           "settings": {
             "icon": "exchange",
             "title": "Troca fácil",
-            "text": "Primeira troca grátis em 30 dias"
+            "text": "Solicite pela sua conta"
           }
         }
       },
@@ -284,7 +285,7 @@
       "settings": {
         "eyebrow": "Círculo Vellora",
         "heading": "Seja a primeira a <em>saber</em>",
-        "text": "<p>Receba em primeira mão lançamentos, edições limitadas e 10% off na sua primeira compra.</p>",
+        "text": "<p>Receba em primeira mão lançamentos, edições limitadas e novidades da Vellora.</p>",
         "disclaimer": "Ao se inscrever, você concorda com nossa Política de Privacidade. Cancele quando quiser."
       }
     },

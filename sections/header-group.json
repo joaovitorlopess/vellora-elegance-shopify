@@ -17,19 +17,19 @@
         "announcement-1": {
           "type": "announcement",
           "settings": {
-            "text": "Frete grátis para todo o Brasil acima de R$ 499"
+            "text": "Frete grátis para todo o Brasil"
           }
         },
         "announcement-2": {
           "type": "announcement",
           "settings": {
-            "text": "Até 6x sem juros  ·  5% off no Pix"
+            "text": "Até 12x sem juros no cartão"
           }
         },
         "announcement-3": {
           "type": "announcement",
           "settings": {
-            "text": "Primeira troca grátis em até 30 dias"
+            "text": "Trocas e devoluções direto pela sua conta"
           }
         }
       },
