@@ -65,7 +65,7 @@
         "t1": {
           "type": "text",
           "settings": {
-            "text": "Tecidos nobres"
+            "text": "Curadoria Vellora"
           }
         },
         "t2": {
@@ -77,13 +77,13 @@
         "t3": {
           "type": "text",
           "settings": {
-            "text": "Produção responsável"
+            "text": "Frete grátis"
           }
         },
         "t4": {
           "type": "text",
           "settings": {
-            "text": "Feito no Brasil"
+            "text": "Até 12x sem juros"
           }
         }
       },
@@ -160,7 +160,7 @@
         "eyebrow": "Nossa essência",
         "heading": "Criamos peças para mulheres que não precisam <em>anunciar</em> a própria elegância.",
         "heading_size": "h2",
-        "text": "<p>Tecidos nobres, modelagens precisas e uma paleta que atravessa estações. Cada coleção da Vellora é desenhada para compor um guarda-roupa duradouro — menos excesso, mais intenção.</p>",
+        "text": "<p>Modelagens que valorizam, cores que atravessam estações e peças escolhidas uma a uma pela curadoria Vellora — para você se vestir bem, sem esforço.</p>",
         "button_label": "Conheça a marca",
         "alignment": "center",
         "background": "alt"
@@ -172,9 +172,9 @@
         "image_position": "left",
         "full_width": false,
         "eyebrow": "Coleção cápsula",
-        "heading": "Seda, linho e <em>leveza</em>",
-        "text": "<p>Uma edição limitada de peças em fibras naturais, pensadas para os dias quentes e as noites sem pressa. Produzidas em pequenos lotes, com acabamento artesanal.</p>",
-        "button_label": "Comprar a cápsula",
+        "heading": "Leveza para os <em>dias quentes</em>",
+        "text": "<p>Uma seleção de vestidos e peças fluidas para os dias de sol e as noites sem pressa, escolhidas a dedo pela nossa curadoria.</p>",
+        "button_label": "Ver a seleção",
         "background": "default"
       }
     },
@@ -199,7 +199,7 @@
         "r1": {
           "type": "testimonial",
           "settings": {
-            "quote": "O caimento é impecável e o tecido tem um toque que eu nunca tinha sentido em uma marca nacional. Virou peça-chave do meu guarda-roupa.",
+            "quote": "O caimento é impecável e o tecido tem um toque lindo. Virou peça-chave do meu guarda-roupa.",
             "author": "Mariana A.",
             "location": "São Paulo, SP"
           }
